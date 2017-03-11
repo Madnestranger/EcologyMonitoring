@@ -1,19 +1,35 @@
 .acme-navbar-text {
   color: white;
 }
+
 .addItemBox {
   position: absolute;
   right: 15px;
   top: 15px;
   cursor: pointer;
   span {
-    color: #fff;
+    color: #5AADBB;
   }
 }
 
 #addItemModal {
+  .navTabs {
+    margin-bottom: 10px;
+    a {
+      padding: 5px 0;
+      color: rgba(0, 0, 0, .6);
+      text-decoration: none;
+      margin-right: 20px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      &.active, &:focus {
+        color: #000;
+        border-bottom: 1px solid #5AADBB;
+      }
+    }
+  }
   form {
-    input {
+    input, select {
       margin-bottom: 10px;
     }
   }
@@ -24,19 +40,47 @@
     display: flex;
     padding: 10px 0;
     border-bottom: 1px solid gray;
+    background-color: #fff;
+    transition: all 0.3s ease;
     .header-item {
       flex-basis: 19%;
+      color: rgba(0, 0, 0, .5);
+      padding-left: 5px;
     }
   }
   .substance {
-    margin-top: 10px;
     border-bottom: 1px solid gray;
     .table-container {
       display: flex;
-      padding: 5px 0;
+      padding: 10px 0;
       .table-item {
         flex-basis: 19%;
+        padding-left: 5px;
       }
     }
+    &:hover {
+      background-color: darken(#fff, 5%);
+    }
+  }
+}
+
+.navbar-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.navbar-collapse {
+  position: relative;
+}
+
+@media (max-width: 500px) {
+  .addItemBox {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    cursor: pointer;
+    right: auto;
+    top: auto;
   }
 }
