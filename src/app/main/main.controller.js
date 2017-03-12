@@ -60,26 +60,11 @@ export class MainController {
 
   }
 
-  getLocations() {
-    if (this.pollutions) {
-      let places = this.pollutions.map(t => t.city);
-      this.geocodings = [];
-
-      places = places.filter((item, pos) => places.indexOf(item) === pos);
-      places.map(place => this.geocoding.getCoords(place).then(response => {
-        console.log(response);
-        this.geocodings.push(response);
-      }));
-
-    }
-  }
-
   getData() {
     this.$http
       .get(`${this.API_URL}pollutions`)
       .then(response => {
         this.pollutions = response.data;
-        this.getLocations();
       });
   }
 

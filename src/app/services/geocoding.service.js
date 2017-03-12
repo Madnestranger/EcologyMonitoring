@@ -16,14 +16,16 @@ export class GeocodingService {
     getCoords(address) {
 
         let deferred = this.$q.defer();
-        this.$http.get(this.conf.url + $.param({
-            key: this.conf.key,
-            address,
-            language: "uk"
-        })).then(response => {
-            deferred.resolve(response.results.geometry.location);
-        },response => {
-            deferred.reject(response["error_message"]);
+        this.$http.get(this.conf.url, {
+            params: {
+                key: this.conf.key,
+                address,
+                language: "uk"
+            }
+        }).then(response => {
+            deferred.resolve(response.data.results[0].geometry.location);
+        }, response => {
+            deferred.reject(response.data["error_message"]);
         });
 
         return deferred.promise;
