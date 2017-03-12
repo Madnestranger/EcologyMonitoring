@@ -74,22 +74,19 @@ export class MainController {
         '<td>Name</td>' +
         '<td>Average conc.</td>' +
         '<td>GDK</td>' +
-        (labId == 1 ? '<td>Class of dang.</td>' : '') +
+        '<td>Class of dang.</td>' +
         '<td>Prob</td>' +
         '<td>Risk</td>' +
-        (labId == 2 ? '<td>Characteristic</td>' : '') +
         '</tr></thead><tbody>';
 
       self.pollutions.map(item => {
         var tr = `<tr><td>${item.name}</td>` +
           `<td>${item.averageConcentration}</td>` +
           `<td>${item.gdk}</td>` +
-          (labId == 1 ? `<td>${item.classOfDangerous}</td>` : '') +
-          (labId == 1 ? `<td>${self.getProbAir(item).toFixed(4)}</td>` : '') +
-          (labId == 1 ? `<td>${self.getRiskAir(item).toFixed(4)}</td>` : '') +
-          (labId == 2 ? `<td>${self.getProbWater(item).toFixed(4)}</td>` : '') +
-          (labId == 2 ? `<td>${self.getRiskWater(item).toFixed(4)}</td>` : '') +
-          (labId == 2 ? `<td>${self.getCharacteristicOfWater(self.getRiskWater(item))}</td>` : '') + '</tr>';
+          `<td>${item.classOfDangerous}</td>` +
+          `<td>${self.getProbAir(item).toFixed(4)}</td>` +
+          `<td>${self.getRiskAir(item).toFixed(4)}</td>` +
+          '</tr>';
         contentString += tr;
       });
 
