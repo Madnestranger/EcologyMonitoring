@@ -1,6 +1,10 @@
 export class MainController {
-  constructor($http, API_URL, $rootScope, polygons, $scope, $stateParams, $state) {
+  constructor($http, API_URL, $rootScope, polygons, $scope, $stateParams, $state, $timeout) {
     'ngInject';
+
+    var self = this,
+      labId = $stateParams.labId;
+
     $scope.$on('open.map', () => {
       this.showMap = true;
       this.initMap();
@@ -62,6 +66,41 @@ export class MainController {
     this.API_URL = API_URL;
     this.getData();
     this.getAllSubstances();
+    this.$timeout = $timeout;
+
+    this.showTable = (event) => {
+
+      var contentString = '<table class="table table-hover"><thead><tr>' +
+        '<td>Name</td>' +
+        '<td>Average conc.</td>' +
+        '<td>GDK</td>' +
+        (labId == 1 ? '<td>Class of dang.</td>' : '') +
+        '<td>Prob</td>' +
+        '<td>Risk</td>' +
+        (labId == 2 ? '<td>Characteristic</td>' : '') +
+        '</tr></thead><tbody>';
+
+      self.pollutions.map(item => {
+        var tr = `<tr><td>${item.name}</td>` +
+          `<td>${item.averageConcentration}</td>` +
+          `<td>${item.gdk}</td>` +
+          (labId == 1 ? `<td>${item.classOfDangerous}</td>` : '') +
+          (labId == 1 ? `<td>${self.getProbAir(item).toFixed(4)}</td>` : '') +
+          (labId == 1 ? `<td>${self.getRiskAir(item).toFixed(4)}</td>` : '') +
+          (labId == 2 ? `<td>${self.getProbWater(item).toFixed(4)}</td>` : '') +
+          (labId == 2 ? `<td>${self.getRiskWater(item).toFixed(4)}</td>` : '') +
+          (labId == 2 ? `<td>${self.getCharacteristicOfWater(self.getRiskWater(item))}</td>` : '') + '</tr>';
+        contentString += tr;
+      });
+
+      contentString += '</tbody></table>';
+      console.log(contentString);
+
+      self.infoWindow.setContent(contentString);
+      self.infoWindow.setPosition(event.latLng);
+
+      self.infoWindow.open(self.map);
+    };
   }
 
   getCharacteristicOfWater(risk) {
@@ -161,9 +200,14 @@ export class MainController {
 
   initMap() {
     if (!this.map) {
+
+      this.$timeout(() => {
+        google.maps.event.trigger(this.map, 'resize');
+      }, 500);
+
       this.map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 50.4501, lng: 30.5234 },
-        zoom: 8
+        zoom: 5
       });
 
       this.polygons.get(`${this.$stateParams.cityId}`).then(response => {
@@ -178,7 +222,7 @@ export class MainController {
         });
         town.setMap(this.map);
 
-        town.addListener('click', this.showTable);
+        town.addListener('click', this.showTable.bind(this));
 
         this.infoWindow = new google.maps.InfoWindow;
 
@@ -187,33 +231,5 @@ export class MainController {
     }
   }
 
-  showTable() {
 
-    var contentString = '<table class="table"><thead><tr>' +
-      '<td>Name</td>' +
-      '<td>Average conc.</td>' +
-      '<td>GDK</td>' +
-      '<td>Class of dang.</td>' +
-      '<td>Prob</td>' +
-      '<td>Risk</td>' +
-      '</tr></thead><tbody>';
-
-    this.pollutions.map(item => {
-      var tr = `<tr><td>${item.name}</td>
-        <td>${item.averageConcentration}</td>
-        <td>${item.gdk}</td>
-        <td>${item.classOfDangerous}</td>
-        <td>${this.getProb(item).toFixed(4)}</td>
-        <td>${this.getRisk(item).toFixed(4)}</td>`;
-      contentString += tr;
-    });
-
-    contentString += '</tbody></table>';
-  
-
-    this.infoWindow.setContent(contentString);
-    this.infoWindow.setPosition(event.latLng);
-
-    this.infoWindow.open(this.map);
-  }
 }
