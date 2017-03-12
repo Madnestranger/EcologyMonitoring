@@ -134,7 +134,7 @@ export class MainController {
         zoom: 8
       });
 
-      this.polygons.get('421866').then(array => {
+      this.polygons.get(`${this.$stateParams.cityId}`).then(array => {
 
         var town = new google.maps.Polygon({
           paths: array,

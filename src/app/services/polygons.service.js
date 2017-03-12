@@ -1,20 +1,15 @@
 export class PolygonsService {
-    constructor($http, $q) {
+    constructor($http, $q, API_URL) {
         'ngInject';
-
-        angular.extend(this, {
-            $http,
-            $q,
-            config: {
-                url: "http://polygons.openstreetmap.fr/get_geojson.py?"
-            }
-        });
+      this.API_URL = API_URL;
+      this.$q = $q;
+      this.$http = $http;
     }
 
     get(id) {
         var deferred = this.$q.defer();
 
-        this.$http.get(this.config.url + $.param({ id })).then(response => {
+        this.$http.get(`${this.API_URL}getPolygon?id=${id}`).then(response => {
 
             var begin = new Date();
             var result = response.data.geometries[0].coordinates[0][0].map(item => ({

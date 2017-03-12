@@ -28,15 +28,6 @@ export class VariantController {
         id: 5
       }
     ];
-    this.testPolygon();
-  }
-
-  testPolygon() {
-    this.$http
-      .get(`${this.API_URL}getPolygon?id=421866`)
-      .then(response => {
-        console.log(response);
-      })
   }
 
   addCity(city) {
