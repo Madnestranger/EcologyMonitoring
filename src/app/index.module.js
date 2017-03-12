@@ -9,6 +9,8 @@ import { NavbarDirective } from '../app/components/navbar/navbar.directive';
 import { GeocodingService } from '../app/services/geocoding.service.js';
 import { VariantController } from './variant/variant.controller';
 import { PolygonsService } from '../app/services/polygons.service.js';
+import { Lab2Controller } from './lab2/lab2.controller';
+import { Lab3Controller } from './lab3/lab3.controller';
 
 let API_URL = 'http://212.80.38.228:3333/';
 
@@ -23,4 +25,6 @@ angular.module('ecologyMonitoring', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSan
   .service('polygons', PolygonsService)
   .controller('MainController', MainController)
   .controller('VariantController', VariantController)
+  .controller('Lab2Controller', Lab2Controller)
+  .controller('Lab3Controller', Lab3Controller)
   .directive('acmeNavbar', NavbarDirective);

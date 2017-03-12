@@ -43,7 +43,7 @@ export class VariantController {
   }
 
   go() {
-    this.$state.go('home', {
+    this.$state.go(`lab${this.chosenLab}`, {
       cityId: this.chosenCity.id,
       cityName: this.chosenCity.name,
       labId: this.chosenLab
