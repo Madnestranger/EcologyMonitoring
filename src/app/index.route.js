@@ -3,7 +3,7 @@ export function routerConfig($stateProvider, $urlRouterProvider, $httpProvider) 
 
   $stateProvider
     .state('home', {
-      url: '/home?{cityId&labId}',
+      url: '/home?{cityId&labId&cityName}',
       templateUrl: 'app/main/main.html',
       controller: 'MainController',
       controllerAs: 'main'

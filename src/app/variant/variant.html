@@ -1,7 +1,7 @@
 <div class="variantContainer container">
   <form action="" id="variantForm">
     <select name="" id="1" class="form-control" ng-model="ctrl.chosenCity"
-            ng-options="item.id as item.name for item in ctrl.cities track by item.id"
+            ng-options="item as item.name for item in ctrl.cities track by item.id"
             required="true"></select>
     <select name="" id="2"
             required="true"

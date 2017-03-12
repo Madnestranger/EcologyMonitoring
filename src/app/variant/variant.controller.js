@@ -37,14 +37,15 @@ export class VariantController {
         name: city.name
       })
       .then(response => {
-        console.log(response.data);
         this.cities.push(response.data);
+        $('#addCityModal').modal('hide');
       })
   }
 
   go() {
     this.$state.go('home', {
-      cityId: this.chosenCity,
+      cityId: this.chosenCity.id,
+      cityName: this.chosenCity.name,
       labId: this.chosenLab
     })
   }
@@ -54,7 +55,6 @@ export class VariantController {
       .get(`${this.API_URL}cities`)
       .then(response => {
         this.cities = response.data;
-        $('#addCityModal').modal('hide');
       });
   }
 }
