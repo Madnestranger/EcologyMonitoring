@@ -1,15 +1,11 @@
 export class MainController {
   constructor($http, API_URL, $rootScope, polygons,$scope,$stateParams, $state) {
     'ngInject';
-
-
     $scope.$on('open.map', () => {
       this.showMap = true;
       this.initMap();
     });
-
     this.polygons = polygons;
-
     this.constantsProb = {
       1: {
         a: -9.15,
@@ -28,7 +24,6 @@ export class MainController {
         b: 2.33
       }
     };
-
     this.constantsRisk = {
       1: {
         k: 7.5,
@@ -47,8 +42,19 @@ export class MainController {
         b: 0.87
       }
     };
+    this.requestsForLab = {
+      1: {
+        substance: 'substances',
+        pollution: 'pollutions'
+      },
+      2: {
+        substance: 'onlyGDKsubstances',
+        pollution: 'pollutionsWater'
+      }
+    };
     this.$stateParams = $stateParams;
     this.$http = $http;
+    this.$state = $state;
     this.$rootScope = $rootScope;
     this.newSubstance = {};
     this.newPollution = {};
@@ -58,9 +64,27 @@ export class MainController {
     this.getAllSubstances();
   }
 
+  getCharacteristicOfWater(risk) {
+    if (risk < 0.1) {
+      return "Незначний вплив на здоров'я населення"
+    }
+    if (risk >= 0.1 && risk <= 0.19) {
+      return "Слабкий вплив, граничні хронічні ефекти"
+    }
+    if (risk >= 0.2 && risk <= 0.59) {
+      return "Значний вплив, важкі хронічні ефекти"
+    }
+    if (risk >= 0.6 && risk <= 0.89) {
+      return "Великий вплив, важкі гострі ефекти"
+    }
+    if (risk >= 0.9 && risk <= 1) {
+      return "Дуже великий вплив, смертельні ефекти"
+    }
+  }
+
   getData() {
     this.$http
-      .get(`${this.API_URL}pollutions`)
+      .get(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}`)
       .then(response => {
         this.pollutions = response.data;
       });
@@ -68,18 +92,26 @@ export class MainController {
 
   getAllSubstances() {
     this.$http
-      .get(`${this.API_URL}substances`)
+      .get(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].substance}`)
       .then(response => {
         this.substances = response.data;
       });
   }
 
-  getProb(item) {
+  getProbAir(item) {
     return this.constantsProb[item.classOfDangerous].a + (this.constantsProb[item.classOfDangerous].b * Math.log10(item.averageConcentration / item.gdk));
   }
 
-  getRisk(item) {
+  getRiskAir(item) {
     return 1 - Math.exp((Math.log(0.84) * (item.averageConcentration / item.gdk) * (this.constantsRisk[item.classOfDangerous].k / this.constantsRisk[item.classOfDangerous].b)));
+  }
+
+  getProbWater(item) {
+    return -2 + 3.32 * Math.log10(item.averageConcentration / item.gdk);
+  }
+
+  getRiskWater(item) {
+    return 1 - Math.exp((Math.log(0.84) / (item.gdk * 4 * 4.5))) * item.averageConcentration;
   }
 
   changeTab(tab) {
@@ -100,7 +132,7 @@ export class MainController {
 
   addSubstance(substance) {
     this.$http
-      .post(`${this.API_URL}substances`, {
+      .post(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].substance}`, {
         name: substance.name,
         gdk: substance.gdk,
         classOfDangerous: substance.classDanger
@@ -114,7 +146,7 @@ export class MainController {
 
   addItem(pollution) {
     this.$http
-      .post(`${this.API_URL}pollutions`, {
+      .post(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}`, {
         city: pollution.city,
         averageConcentration: pollution.avg,
         mainLocation: pollution.mainLocation,

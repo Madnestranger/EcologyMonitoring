@@ -6,9 +6,10 @@
       <div class="header-item">City</div>
       <div class="header-item">Average conc.</div>
       <div class="header-item">GDK</div>
-      <div class="header-item">Class of dang.</div>
+      <div class="header-item" ng-if="main.$stateParams.labId == 1">Class of dang.</div>
       <div class="header-item">Prob</div>
       <div class="header-item">Risk</div>
+      <div class="header-item" ng-if="main.$stateParams.labId == 2">Characteristic</div>
     </div>
     <div class="substance" ng-repeat="item in main.pollutions track by $index">
       <div class="table-container">
@@ -16,9 +17,12 @@
         <div class="table-item">{{item.city}}</div>
         <div class="table-item">{{item.averageConcentration}}</div>
         <div class="table-item">{{item.gdk}}</div>
-        <div class="table-item">{{item.classOfDangerous}}</div>
-        <div class="table-item">{{main.getProb(item) | number: 4}}</div>
-        <div class="table-item">{{main.getRisk(item) | number: 4}}</div>
+        <div class="table-item" ng-if="main.$stateParams.labId == 1">{{item.classOfDangerous}}</div>
+        <div class="table-item" ng-if="main.$stateParams.labId == 1">{{main.getProbAir(item) | number: 4}}</div>
+        <div class="table-item" ng-if="main.$stateParams.labId == 1">{{main.getRiskAir(item) | number: 4}}</div>
+        <div class="table-item" ng-if="main.$stateParams.labId == 2">{{main.getProbWater(item) | number: 4}}</div>
+        <div class="table-item" ng-if="main.$stateParams.labId == 2">{{main.getRiskWater(item) | number: 4}}</div>
+        <div class="table-item" ng-if="main.$stateParams.labId == 2">{{main.getCharacteristicOfWater(main.getRiskWater(item))}}</div>
       </div>
     </div>
   </div>
@@ -48,12 +52,12 @@
       <div class="modal-body">
         <div class="navTabs">
           <a aria-controls="addItemForm" role="tab" data-toggle="tab" href="#addItemForm"
-            ng-class="{'active' : main.currentTab == 'item'}" ng-click="main.changeTab('item');">
+            ng-class="{'active' : main.currentTab == 'item'}" ng-click="main.changeTab('item');" onclick="event.preventDefault();">
             Add Item
           </a>
           <a class="kl-first-level-item" aria-controls="addSubstanceForm"
             role="tab" data-toggle="tab" ng-class="{'active' : main.currentTab == 'substance'}"
-            ng-click="main.changeTab('substance');" href="#addSubstanceForm">
+            ng-click="main.changeTab('substance');" href="#addSubstanceForm" onclick="event.preventDefault();">
             Add Substance
           </a>
         </div>
@@ -80,7 +84,7 @@
             <input type="text" placeholder="GDK:" ng-model="main.newSubstance.gdk"
               required="true" class="form-control" ng-keyup="main.checkDigitsGDK(this)">
             <input type="number" placeholder="Class of dangerous:" ng-model="main.newSubstance.classDanger"
-              required="true" class="form-control" max="4">
+              required="true" class="form-control" max="4" ng-if="main.$stateParams.labId == 1">
             <button class="btn btn-default" ng-disabled="addSubstanceForm.$invalid"
               ng-click="main.addSubstance(main.newSubstance)">Add</button>
           </form>
