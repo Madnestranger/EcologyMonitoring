@@ -78,28 +78,20 @@ export class Lab3Controller {
       var contentString = '<table class="table table-hover"><thead><tr>' +
         '<td>Name</td>' +
         '<td>Average conc.</td>' +
-        '<td>GDK</td>' +
-        (labId == 1 ? '<td>Class of dang.</td>' : '') +
-        '<td>Prob</td>' +
+        '<td>Area</td>' +
         '<td>Risk</td>' +
-        (labId == 2 ? '<td>Characteristic</td>' : '') +
         '</tr></thead><tbody>';
 
       self.pollutions.map(item => {
         var tr = `<tr><td>${item.name}</td>` +
           `<td>${item.averageConcentration}</td>` +
-          `<td>${item.gdk}</td>` +
-          (labId == 1 ? `<td>${item.classOfDangerous}</td>` : '') +
-          (labId == 1 ? `<td>${self.getProbAir(item).toFixed(4)}</td>` : '') +
-          (labId == 1 ? `<td>${self.getRiskAir(item).toFixed(4)}</td>` : '') +
-          (labId == 2 ? `<td>${self.getProbWater(item).toFixed(4)}</td>` : '') +
-          (labId == 2 ? `<td>${self.getRiskWater(item).toFixed(4)}</td>` : '') +
-          (labId == 2 ? `<td>${self.getCharacteristicOfWater(self.getRiskWater(item))}</td>` : '') + '</tr>';
+          `<td>${item.area}</td>` +
+          `<td>${self.getRiskEarth(item).toFixed(4)}</td>` +
+          '</tr>';
         contentString += tr;
       });
 
       contentString += '</tbody></table>';
-      console.log(contentString);
 
       self.infoWindow.setContent(contentString);
       self.infoWindow.setPosition(event.latLng);
@@ -176,7 +168,7 @@ export class Lab3Controller {
       }, 500);
 
       this.map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 50.4501, lng: 30.5234},
+        center: { lat: 50.4501, lng: 30.5234 },
         zoom: 5
       });
 

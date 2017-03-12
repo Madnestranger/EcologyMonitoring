@@ -74,27 +74,23 @@ export class Lab2Controller {
         '<td>Name</td>' +
         '<td>Average conc.</td>' +
         '<td>GDK</td>' +
-        (labId == 1 ? '<td>Class of dang.</td>' : '') +
         '<td>Prob</td>' +
         '<td>Risk</td>' +
-        (labId == 2 ? '<td>Characteristic</td>' : '') +
+        '<td>Characteristic</td>' +
         '</tr></thead><tbody>';
 
       self.pollutions.map(item => {
         var tr = `<tr><td>${item.name}</td>` +
           `<td>${item.averageConcentration}</td>` +
           `<td>${item.gdk}</td>` +
-          (labId == 1 ? `<td>${item.classOfDangerous}</td>` : '') +
-          (labId == 1 ? `<td>${self.getProbAir(item).toFixed(4)}</td>` : '') +
-          (labId == 1 ? `<td>${self.getRiskAir(item).toFixed(4)}</td>` : '') +
-          (labId == 2 ? `<td>${self.getProbWater(item).toFixed(4)}</td>` : '') +
-          (labId == 2 ? `<td>${self.getRiskWater(item).toFixed(4)}</td>` : '') +
-          (labId == 2 ? `<td>${self.getCharacteristicOfWater(self.getRiskWater(item))}</td>` : '') + '</tr>';
+          `<td>${self.getProbWater(item).toFixed(4)}</td>` +
+          `<td>${self.getRiskWater(item).toFixed(4)}</td>` +
+          `<td>${self.getCharacteristicOfWater(self.getRiskWater(item))}</td>` +
+          '</tr>';
         contentString += tr;
       });
 
       contentString += '</tbody></table>';
-      console.log(contentString);
 
       self.infoWindow.setContent(contentString);
       self.infoWindow.setPosition(event.latLng);
