@@ -1,5 +1,5 @@
 export class MainController {
-  constructor($http, API_URL) {
+  constructor($http, API_URL, geocoding) {
     'ngInject';
 
     this.constantsProb = {
@@ -40,13 +40,38 @@ export class MainController {
       }
     };
 
+    this.map;
     this.$http = $http;
     this.newSubstance = {};
     this.newPollution = {};
     this.currentTab = 'item';
     this.API_URL = API_URL;
+    this.geocoding = geocoding;
     this.getData();
     this.getAllSubstances();
+  }
+
+  initMap() {
+    if (!this.map)
+      this.map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 50.4501, lng: 30.5234 },
+        zoom: 8
+      });
+
+  }
+
+  getLocations() {
+    if (this.pollutions) {
+      let places = this.pollutions.map(t => t.city);
+      this.geocodings = [];
+
+      places = places.filter((item, pos) => places.indexOf(item) === pos);
+      places.map(place => this.geocoding.getCoords(place).then(response => {
+        console.log(response);
+        this.geocodings.push(response);
+      }));
+
+    }
   }
 
   getData() {
@@ -54,7 +79,8 @@ export class MainController {
       .get(`${this.API_URL}pollutions`)
       .then(response => {
         this.pollutions = response.data;
-      })
+        this.getLocations();
+      });
   }
 
   getAllSubstances() {
@@ -62,7 +88,7 @@ export class MainController {
       .get(`${this.API_URL}substances`)
       .then(response => {
         this.substances = response.data;
-      })
+      });
   }
 
   getProb(item) {

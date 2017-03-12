@@ -6,6 +6,7 @@ import { routerConfig } from './index.route';
 import { runBlock } from './index.run';
 import { MainController } from './main/main.controller';
 import { NavbarDirective } from '../app/components/navbar/navbar.directive';
+import { GeocodingService } from '../app/services/geocoding.service.js';
 
 let API_URL = 'http://212.80.38.228:3333/';
 
@@ -16,5 +17,6 @@ angular.module('ecologyMonitoring', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSan
   .config(config)
   .config(routerConfig)
   .run(runBlock)
+  .service('geocoding', GeocodingService)
   .controller('MainController', MainController)
   .directive('acmeNavbar', NavbarDirective);

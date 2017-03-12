@@ -1,27 +1,39 @@
 <div class="container">
- <div class="substContainer">
-   <div class="subst-header">
-     <div class="header-item">Name</div>
-     <div class="header-item">City</div>
-     <div class="header-item">Average conc.</div>
-     <div class="header-item">GDK</div>
-     <div class="header-item">Class of dang.</div>
-     <div class="header-item">Prob</div>
-     <div class="header-item">Risk</div>
-   </div>
-   <div class="substance" ng-repeat="item in main.pollutions track by $index">
-     <div class="table-container">
-       <div class="table-item">{{item.name}}</div>
-       <div class="table-item">{{item.city}}</div>
-       <div class="table-item">{{item.averageConcentration}}</div>
-       <div class="table-item">{{item.gdk}}</div>
-       <div class="table-item">{{item.classOfDangerous}}</div>
-       <div class="table-item">{{main.getProb(item) | number: 4}}</div>
-       <div class="table-item">{{main.getRisk(item) | number: 4}}</div>
-     </div>
-   </div>
- </div>
+  <button class="btn btn-default btn-map" ng-click="showMap = !showMap;main.initMap()">Show map</button>
+  <div class="substContainer">
+    <div class="subst-header">
+      <div class="header-item">Name</div>
+      <div class="header-item">City</div>
+      <div class="header-item">Average conc.</div>
+      <div class="header-item">GDK</div>
+      <div class="header-item">Class of dang.</div>
+      <div class="header-item">Prob</div>
+      <div class="header-item">Risk</div>
+    </div>
+    <div class="substance" ng-repeat="item in main.pollutions track by $index">
+      <div class="table-container">
+        <div class="table-item">{{item.name}}</div>
+        <div class="table-item">{{item.city}}</div>
+        <div class="table-item">{{item.averageConcentration}}</div>
+        <div class="table-item">{{item.gdk}}</div>
+        <div class="table-item">{{item.classOfDangerous}}</div>
+        <div class="table-item">{{main.getProb(item) | number: 4}}</div>
+        <div class="table-item">{{main.getRisk(item) | number: 4}}</div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<div ng-show="showMap" class="map-container">
+  <div class="btn-close" ng-click="showMap = !showMap">
+    &#10006;
+  </div>
+  <div class="map-wrapper">
+    <div id="map">
+    </div>
+  </div>
+</div>
+
 
 <div id="addItemModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -34,40 +46,42 @@
       </div>
       <div class="modal-body">
         <div class="navTabs">
-          <a aria-controls="addItemForm"
-             role="tab"
-             data-toggle="tab"
-             href="#addItemForm"
-             ng-class="{'active' : main.currentTab == 'item'}"
-             ng-click="main.changeTab('item');">
+          <a aria-controls="addItemForm" role="tab" data-toggle="tab" href="#addItemForm"
+            ng-class="{'active' : main.currentTab == 'item'}" ng-click="main.changeTab('item');">
             Add Item
           </a>
-          <a class="kl-first-level-item"
-             aria-controls="addSubstanceForm"
-             role="tab"
-             data-toggle="tab"
-             ng-class="{'active' : main.currentTab == 'substance'}"
-             ng-click="main.changeTab('substance');"
-             href="#addSubstanceForm">
+          <a class="kl-first-level-item" aria-controls="addSubstanceForm"
+            role="tab" data-toggle="tab" ng-class="{'active' : main.currentTab == 'substance'}"
+            ng-click="main.changeTab('substance');" href="#addSubstanceForm">
             Add Substance
           </a>
         </div>
         <div class="tab-content">
-          <form action="" name="addItemForm" id="addItemForm" role="tabpanel" class="tab-pane active" onsubmit="event.preventDefault();">
-            <select name="" id=""
-                    class="form-control"
-                    ng-model="main.newPollution.substanceId"
-                    ng-options="item._id as item.name for item in main.substances track by item._id" required="true"></select>
-            <input type="text" placeholder="Name of your main city by variant:" ng-model="main.newPollution.mainLocation" required="true" class="form-control">
-            <input type="text" placeholder="City:" ng-model="main.newPollution.city" required="true" class="form-control">
-            <input type="text" placeholder="Average concentration:" ng-model="main.newPollution.avg" required="true" class="form-control" ng-keyup="main.checkDigitsAvg(this)">
-            <button class="btn btn-default" ng-disabled="addItemForm.$invalid" ng-click="main.addItem(main.newPollution)">Add</button>
+          <form action="" name="addItemForm" id="addItemForm" role="tabpanel"
+            class="tab-pane active" onsubmit="event.preventDefault();">
+            <select name="" id="" class="form-control" ng-model="main.newPollution.substanceId"
+              ng-options="item._id as item.name for item in main.substances track by item._id"
+              required="true"></select>
+            <input type="text" placeholder="Name of your main city by variant:"
+              ng-model="main.newPollution.mainLocation" required="true"
+              class="form-control">
+            <input type="text" placeholder="City:" ng-model="main.newPollution.city"
+              required="true" class="form-control">
+            <input type="text" placeholder="Average concentration:" ng-model="main.newPollution.avg"
+              required="true" class="form-control" ng-keyup="main.checkDigitsAvg(this)">
+            <button class="btn btn-default" ng-disabled="addItemForm.$invalid"
+              ng-click="main.addItem(main.newPollution)">Add</button>
           </form>
-          <form action="" name="addSubstanceForm" id="addSubstanceForm" role="tabpanel" class="tab-pane" onsubmit="event.preventDefault();">
-            <input type="text" placeholder="Name:" ng-model="main.newSubstance.name" required="true" class="form-control">
-            <input type="text" placeholder="GDK:" ng-model="main.newSubstance.gdk" required="true" class="form-control" ng-keyup="main.checkDigitsGDK(this)">
-            <input type="number" placeholder="Class of dangerous:" ng-model="main.newSubstance.classDanger" required="true" class="form-control" max="4">
-            <button class="btn btn-default" ng-disabled="addSubstanceForm.$invalid" ng-click="main.addSubstance(main.newSubstance)">Add</button>
+          <form action="" name="addSubstanceForm" id="addSubstanceForm"
+            role="tabpanel" class="tab-pane" onsubmit="event.preventDefault();">
+            <input type="text" placeholder="Name:" ng-model="main.newSubstance.name"
+              required="true" class="form-control">
+            <input type="text" placeholder="GDK:" ng-model="main.newSubstance.gdk"
+              required="true" class="form-control" ng-keyup="main.checkDigitsGDK(this)">
+            <input type="number" placeholder="Class of dangerous:" ng-model="main.newSubstance.classDanger"
+              required="true" class="form-control" max="4">
+            <button class="btn btn-default" ng-disabled="addSubstanceForm.$invalid"
+              ng-click="main.addSubstance(main.newSubstance)">Add</button>
           </form>
         </div>
       </div>
