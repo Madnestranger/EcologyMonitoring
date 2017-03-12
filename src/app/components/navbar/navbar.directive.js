@@ -16,20 +16,17 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor($rootScope, geocoding, $state) {
+  constructor($rootScope, $state) {
     'ngInject';
-    this.geocoding = geocoding;
-    this.$state = $state;
-    $rootScope.showMap = false;
+
     this.$rootScope = $rootScope;
-  }
-
-  initMap() {
-    if (!this.map)
-      this.map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 50.4501, lng: 30.5234},
-        zoom: 8
-      });
+	this.$state = $state;
 
   }
+
+
+  openMap() {
+    this.$rootScope.$broadcast('open.map', {});
+  }
+
 }

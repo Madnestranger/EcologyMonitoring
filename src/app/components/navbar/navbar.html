@@ -12,7 +12,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="nav navbar-nav">
-        <li ng-if="vm.$state.current.name=='home'"><button class="btn btn-default btn-map" ng-click="vm.$rootScope.showMap = !vm.$rootScope.showMap; vm.initMap();"><i class="glyphicon glyphicon-globe"></i></button></li>
+        <li ng-if="vm.$state.current.name=='home'"><button class="btn btn-default btn-map" ng-click="vm.openMap()"><i class="glyphicon glyphicon-globe"></i></button></li>
         <li ng-if="vm.$state.current.name=='home'"><a ui-sref="variant">Choose another</a></li>
         <div ng-if="vm.$state.current.name=='home'" class="addItemBox" data-toggle="modal" data-target="#addItemModal">
           <button class="btn btn-default btn-map btn-modal">

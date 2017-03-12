@@ -1,6 +1,14 @@
 export class MainController {
-  constructor($http, API_URL, $rootScope, $stateParams, $state) {
+  constructor($http, API_URL, $rootScope, polygons,$scope,$state) {
     'ngInject';
+
+
+    $scope.$on('open.map', () => {
+      this.showMap = true;
+      this.initMap();
+    });
+
+    this.polygons = polygons;
 
     this.constantsProb = {
       1: {
@@ -118,5 +126,32 @@ export class MainController {
         this.newPollution = {};
         this.pollutions.push(response.data);
       });
+  }
+
+  initMap() {
+    if (!this.map) {
+      this.map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 50.4501, lng: 30.5234 },
+        zoom: 8
+      });
+
+      this.polygons.get('421866').then(array => {
+
+        var town = new google.maps.Polygon({
+          paths: array,
+          strokeColor: '#5AADBB',
+          strokeOpacity: 0.8,
+          strokeWeight: 3,
+          fillColor: '#5AADBB',
+          fillOpacity: 0.35
+        });
+        town.setMap(this.map);
+
+      });
+
+      // Construct the polygon.
+
+
+    }
   }
 }
