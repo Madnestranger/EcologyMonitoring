@@ -4,13 +4,39 @@
 
 .addItemBox {
   position: absolute;
-  right: 15px;
-  top: 15px;
+  right: 10px;
+  top: 10px;
   cursor: pointer;
   span {
     color: #5AADBB;
   }
 }
+
+.navbar-header {
+  &:hover {
+    color: #fff !important;
+  }
+}
+
+.btn-map {
+  margin: 9.2px 15px;
+  background-color: #222;
+  border: none;
+  color: #5AADBB;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  &.btn-modal {
+    margin: 0;
+  }
+  &:hover, &:focus {
+    background-color: #5AADBB;
+    border: none;
+    span {
+      color: #222 !important;
+    }
+  }
+}
+
 
 #addItemModal {
   .navTabs {

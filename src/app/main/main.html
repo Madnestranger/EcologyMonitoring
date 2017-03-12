@@ -1,5 +1,5 @@
 <div class="container">
-  <button class="btn btn-default btn-map" ng-click="showMap = !showMap;main.initMap()">Show map</button>
+
   <div class="substContainer">
     <div class="subst-header">
       <div class="header-item">Name</div>
@@ -24,12 +24,12 @@
   </div>
 </div>
 
-<div ng-show="showMap" class="map-container">
-  <div class="btn-close" ng-click="showMap = !showMap">
+<div ng-show="main.$rootScope.showMap" class="map-container" ng-click="main.$rootScope.showMap = !main.$rootScope.showMap">
+  <div class="btn-close">
     &#10006;
   </div>
   <div class="map-wrapper">
-    <div id="map">
+    <div id="map" onclick="event.stopPropagation();">
     </div>
   </div>
 </div>

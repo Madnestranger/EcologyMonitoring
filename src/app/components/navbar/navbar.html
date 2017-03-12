@@ -12,8 +12,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="nav navbar-nav">
+        <li><button class="btn btn-default btn-map" ng-click="vm.$rootScope.showMap = !vm.$rootScope.showMap; vm.initMap();"><i class="glyphicon glyphicon-globe"></i></button></li>
         <div class="addItemBox" data-toggle="modal" data-target="#addItemModal">
-          <span>Add item</span>
+          <button class="btn btn-default btn-map btn-modal">
+            <span class="glyphicon glyphicon-open"></span>
+          </button>
         </div>
       </ul>
     </div>

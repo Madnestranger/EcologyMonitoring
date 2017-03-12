@@ -1,5 +1,5 @@
 export class MainController {
-  constructor($http, API_URL, geocoding) {
+  constructor($http, API_URL, $rootScope) {
     'ngInject';
 
     this.constantsProb = {
@@ -40,24 +40,14 @@ export class MainController {
       }
     };
 
-    this.map;
     this.$http = $http;
+    this.$rootScope = $rootScope;
     this.newSubstance = {};
     this.newPollution = {};
     this.currentTab = 'item';
     this.API_URL = API_URL;
-    this.geocoding = geocoding;
     this.getData();
     this.getAllSubstances();
-  }
-
-  initMap() {
-    if (!this.map)
-      this.map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 50.4501, lng: 30.5234 },
-        zoom: 8
-      });
-
   }
 
   getData() {

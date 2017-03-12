@@ -1,47 +1,47 @@
-.btn-map {
-    margin-bottom: 20px;
+* {
+  outline: none;
 }
 
 .map-container {
-    top: 0;
-    left: 0;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 1001;
+  top: 0;
+  left: 0;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  &.ng-hide {
+    opacity: 0;
+  }
+  &.ng-hide-add,
+  &.ng-hide-remove {
+    transition: all linear 0.15s;
+  }
+  .map-wrapper {
     display: flex;
-    flex-direction: column;
-    &.ng-hide {
-        opacity: 0;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    #map {
+      height: 70vh;
+      width: 70vw;
+      margin-bottom: 100px;
     }
-    &.ng-hide-add,
-    &.ng-hide-remove {
-        transition: all linear 0.15s;
+  }
+  div.btn-close {
+    font-size: 20pt;
+    margin: 15px;
+    color: white;
+    align-self: flex-end;
+    opacity: .6;
+    transition: opacity linear .15s;
+    &:hover {
+      opacity: 1;
     }
-    .map-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex: 1;
-        #map {
-            height: 70vh;
-            width: 70vw;
-            margin-bottom: 100px;
-        }
+    &:focus {
+      outline: none;
     }
-    div.btn-close {
-        font-size: 20pt;
-        margin: 15px;
-        color: white;
-        align-self: flex-end;
-        opacity: .6;
-        transition: opacity linear .15s;
-        &:hover {
-            opacity: 1;
-        }
-        &:focus {
-            outline: none;
-        }
-    }
+  }
 }

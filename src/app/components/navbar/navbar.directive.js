@@ -5,7 +5,7 @@ export function NavbarDirective() {
     restrict: 'E',
     templateUrl: 'app/components/navbar/navbar.html',
     scope: {
-        creationDate: '='
+      creationDate: '='
     },
     controller: NavbarController,
     controllerAs: 'vm',
@@ -16,10 +16,19 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor (moment) {
+  constructor($rootScope, geocoding) {
     'ngInject';
+    this.geocoding = geocoding;
+    $rootScope.showMap = false;
+    this.$rootScope = $rootScope;
+  }
 
-    // "this.creationDate" is available by directive option "bindToController: true"
-    this.relativeDate = moment(this.creationDate).fromNow();
+  initMap() {
+    if (!this.map)
+      this.map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 50.4501, lng: 30.5234},
+        zoom: 8
+      });
+
   }
 }
