@@ -1,5 +1,5 @@
 export class MainController {
-  constructor($http, API_URL, $rootScope, polygons,$scope,$state) {
+  constructor($http, API_URL, $rootScope, polygons,$scope,$stateParams, $state) {
     'ngInject';
 
 
@@ -47,7 +47,6 @@ export class MainController {
         b: 0.87
       }
     };
-    console.log($stateParams);
     this.$stateParams = $stateParams;
     this.$http = $http;
     this.$rootScope = $rootScope;
