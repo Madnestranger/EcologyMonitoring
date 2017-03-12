@@ -137,14 +137,6 @@ export class Lab2Controller {
       });
   }
 
-  getProbAir(item) {
-    return this.constantsProb[item.classOfDangerous].a + (this.constantsProb[item.classOfDangerous].b * Math.log10(item.averageConcentration / item.gdk));
-  }
-
-  getRiskAir(item) {
-    return 1 - Math.exp((Math.log(0.84) * (item.averageConcentration / item.gdk) * (this.constantsRisk[item.classOfDangerous].k / this.constantsRisk[item.classOfDangerous].b)));
-  }
-
   getProbWater(item) {
     return -2 + 3.32 * Math.log10(item.averageConcentration / item.gdk);
   }
@@ -230,6 +222,4 @@ export class Lab2Controller {
       });
     }
   }
-
-
 }

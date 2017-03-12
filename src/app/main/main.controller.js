@@ -103,24 +103,6 @@ export class MainController {
     };
   }
 
-  getCharacteristicOfWater(risk) {
-    if (risk < 0.1) {
-      return "Незначний вплив на здоров'я населення"
-    }
-    if (risk >= 0.1 && risk <= 0.19) {
-      return "Слабкий вплив, граничні хронічні ефекти"
-    }
-    if (risk >= 0.2 && risk <= 0.59) {
-      return "Значний вплив, важкі хронічні ефекти"
-    }
-    if (risk >= 0.6 && risk <= 0.89) {
-      return "Великий вплив, важкі гострі ефекти"
-    }
-    if (risk >= 0.9 && risk <= 1) {
-      return "Дуже великий вплив, смертельні ефекти"
-    }
-  }
-
   getData() {
     this.$http
       .get(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}?city=${this.$stateParams.cityName}`)
@@ -143,14 +125,6 @@ export class MainController {
 
   getRiskAir(item) {
     return 1 - Math.exp((Math.log(0.84) * (item.averageConcentration / item.gdk) * (this.constantsRisk[item.classOfDangerous].k / this.constantsRisk[item.classOfDangerous].b)));
-  }
-
-  getProbWater(item) {
-    return -2 + 3.32 * Math.log10(item.averageConcentration / item.gdk);
-  }
-
-  getRiskWater(item) {
-    return 1 - Math.exp((Math.log(0.84) / (item.gdk * 4 * 4.5))) * item.averageConcentration;
   }
 
   changeTab(tab) {
@@ -230,6 +204,4 @@ export class MainController {
       });
     }
   }
-
-
 }
