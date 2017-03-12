@@ -1,0 +1,44 @@
+<div class="variantContainer container">
+  <form action="" id="variantForm">
+    <select name="" id="1" class="form-control" ng-model="ctrl.chosenCity"
+            ng-options="item.id as item.name for item in ctrl.cities track by item.id"
+            required="true"></select>
+    <select name="" id="2"
+            required="true"
+            class="form-control"
+            ng-model="ctrl.chosenLab"
+            ng-options="item.id as item.name for item in ctrl.labs track by item.id"></select>
+  </form>
+  <div class="btnGroup">
+    <button class="btn btn-default" data-toggle="modal" data-target="#addCityModal">Add city</button>
+    <button class="btn btn-default" ng-click="ctrl.go()" ng-disabled="!ctrl.chosenLab || !ctrl.chosenCity">Go</button>
+  </div>
+
+</div>
+<div id="addCityModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add city</h4>
+      </div>
+      <div class="modal-body">
+        <form action="" name="addCityForm" id="addCityForm"
+              role="tabpanel" class="tab-pane" onsubmit="event.preventDefault();">
+          <input type="text" placeholder="Name:" ng-model="ctrl.newCity.name"
+                 required="true" class="form-control">
+          <input type="number" placeholder="ID:" ng-model="ctrl.newCity.id"
+                 required="true" class="form-control">
+          <button class="btn btn-default" ng-disabled="addCityForm.$invalid"
+                  ng-click="ctrl.addCity(ctrl.newCity)">Add
+          </button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

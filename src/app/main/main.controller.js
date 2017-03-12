@@ -1,5 +1,5 @@
 export class MainController {
-  constructor($http, API_URL, $rootScope) {
+  constructor($http, API_URL, $rootScope, $stateParams, $state) {
     'ngInject';
 
     this.constantsProb = {
@@ -39,7 +39,8 @@ export class MainController {
         b: 0.87
       }
     };
-
+    console.log($stateParams);
+    this.$stateParams = $stateParams;
     this.$http = $http;
     this.$rootScope = $rootScope;
     this.newSubstance = {};

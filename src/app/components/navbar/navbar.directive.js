@@ -16,9 +16,10 @@ export function NavbarDirective() {
 }
 
 class NavbarController {
-  constructor($rootScope, geocoding) {
+  constructor($rootScope, geocoding, $state) {
     'ngInject';
     this.geocoding = geocoding;
+    this.$state = $state;
     $rootScope.showMap = false;
     this.$rootScope = $rootScope;
   }
