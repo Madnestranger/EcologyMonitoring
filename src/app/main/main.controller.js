@@ -84,7 +84,7 @@ export class MainController {
 
   getData() {
     this.$http
-      .get(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}`)
+      .get(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}?city=${this.$stateParams.cityName}`)
       .then(response => {
         this.pollutions = response.data;
       });
