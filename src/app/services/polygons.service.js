@@ -13,10 +13,10 @@ export class PolygonsService {
 
             var begin = new Date();
             var result = response.data.geometries[0].coordinates[0][0].map(item => ({
-                lng: item[1],
-                lat: item[0]
+                lng: item[0],
+                lat: item[1]
             }));
-            console.info(`Array (szie: ${result.length}) parsing: ${+new Date() - begin}.`);
+            console.info(`Array (szie: ${result.length}) parsing: ${+new Date()} ${+begin}.`);
             deferred.resolve(result);
         }, response => {
             console.dir(response);

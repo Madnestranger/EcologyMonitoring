@@ -1,5 +1,5 @@
 export class MainController {
-  constructor($http, API_URL, $rootScope, polygons,$scope,$stateParams, $state) {
+  constructor($http, API_URL, $rootScope, polygons, $scope, $stateParams, $state) {
     'ngInject';
 
 
@@ -134,10 +134,10 @@ export class MainController {
         zoom: 8
       });
 
-      this.polygons.get(`${this.$stateParams.cityId}`).then(array => {
+      this.polygons.get(`${this.$stateParams.cityId}`).then(response => {
 
         var town = new google.maps.Polygon({
-          paths: array,
+          paths: response,
           strokeColor: '#5AADBB',
           strokeOpacity: 0.8,
           strokeWeight: 3,
@@ -146,11 +146,42 @@ export class MainController {
         });
         town.setMap(this.map);
 
+        town.addListener('click', this.showTable);
+
+        this.infoWindow = new google.maps.InfoWindow;
+
+
       });
-
-      // Construct the polygon.
-
-
     }
+  }
+
+  showTable() {
+
+    var contentString = '<table class="table"><thead><tr>' +
+      '<td>Name</td>' +
+      '<td>Average conc.</td>' +
+      '<td>GDK</td>' +
+      '<td>Class of dang.</td>' +
+      '<td>Prob</td>' +
+      '<td>Risk</td>' +
+      '</tr></thead><tbody>';
+
+    this.pollutions.map(item => {
+      var tr = `<tr><td>${item.name}</td>
+        <td>${item.averageConcentration}</td>
+        <td>${item.gdk}</td>
+        <td>${item.classOfDangerous}</td>
+        <td>${this.getProb(item).toFixed(4)}</td>
+        <td>${this.getRisk(item).toFixed(4)}</td>`;
+      contentString += tr;
+    });
+
+    contentString += '</tbody></table>';
+  
+
+    this.infoWindow.setContent(contentString);
+    this.infoWindow.setPosition(event.latLng);
+
+    this.infoWindow.open(this.map);
   }
 }
