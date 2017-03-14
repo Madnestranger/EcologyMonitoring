@@ -10,6 +10,13 @@ export class MainController {
       this.initMap();
     });
     this.polygons = polygons;
+
+    this.constantsRiskBasedOnProb = [{ p: -3, r: 0.001 }, { p: -2.5, r: 0.006 }, { p: -2.0, r: 0.023 }, { p: -1.9, r: 0.029 }, { p: -1.8, r: 0.036 }, { p: -1.7, r: 0.045 }, { p: -1.6, r: 0.055 }, { p: -1.5, r: 0.067 }, { p: -1.4, r: 0.081 }, { p: -1.3, r: 0.097 },
+    { p: -1.2, r: 0.115 }, { p: -1.1, r: 0.136 }, { p: -1.0, r: 0.157 }, { p: -0.9, r: 0.184 }, { p: -0.8, r: 0.212 }, { p: -0.7, r: 0.242 }, { p: -0.6, r: 0.274 }, { p: -0.5, r: 0.309 }, { p: -0.4, r: 0.345 }, { p: -0.3, r: 0.382 }, { p: -0.2, r: 0.421 },
+    { p: -0.1, r: 0.460 }, { p: 0.0, r: 0.50 }, { p: 0.1, r: 0.540 }, { p: 0.2, r: 0.579 }, { p: 0.3, r: 0.618 }, { p: 0.4, r: 0.655 }, { p: 0.5, r: 0.692 }, { p: 0.6, r: 0.726 }, { p: 0.7, r: 0.758 }, { p: 0.8, r: 0.788 }, { p: 0.9, r: 0.816 },
+    { p: 1.0, r: 0.841 }, { p: 1.1, r: 0.864 }, { p: 1.2, r: 0.885 }, { p: 1.3, r: 0.903 }, { p: 1.4, r: 0.919 }, { p: 1.5, r: 0.933 }, { p: 1.6, r: 0.095 }, { p: 1.7, r: 0.955 }, { p: 1.8, r: 0.964 }, { p: 1.9, r: 0.971 }, { p: 2.0, r: 0.977 },
+    { p: 2.5, r: 0.994 }, { p: 3.0, r: 0.999 }];
+
     this.constantsProb = {
       1: {
         a: -9.15,
@@ -68,6 +75,8 @@ export class MainController {
     this.getAllSubstances();
     this.$timeout = $timeout;
 
+
+
     this.showTable = (event) => {
 
       var contentString = '<table class="table table-hover"><thead><tr>' +
@@ -100,11 +109,22 @@ export class MainController {
     };
   }
 
+
   getData() {
     this.$http
       .get(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}?city=${this.$stateParams.cityName}`)
       .then(response => {
-        this.pollutions = response.data;
+
+        this.pollutions = response.data.map(t => angular.extend({}, t, {
+          prob: this.getProbAir(t),
+          risk: this.getEvalRisk(this.getProbAir(t))
+        }));
+
+        this.pollutions2 = response.data.map(t => angular.extend({}, t, {
+          k: this.constantsRisk[t.classOfDangerous].k,
+          b: this.constantsRisk[t.classOfDangerous].b,
+          risk: this.getRiskAir(t)
+        }));
       });
   }
 
@@ -114,6 +134,19 @@ export class MainController {
       .then(response => {
         this.substances = response.data;
       });
+  }
+
+
+  getEvalRisk(value) {
+    for (let i = 0; i < this.constantsRiskBasedOnProb.length; i++) {
+      let cur = this.constantsRiskBasedOnProb[i];
+      if (i === this.constantsRiskBasedOnProb.length - 1)
+        return cur.r;
+
+      let next = this.constantsRiskBasedOnProb[i + 1];
+      if (value >= cur.p && value < next.p || value < cur.p)
+        return cur.r;
+    }
   }
 
   getProbAir(item) {
@@ -126,6 +159,10 @@ export class MainController {
 
   changeTab(tab) {
     this.currentTab = tab;
+  }
+
+  getRiskCellColor(value) {
+    return `${Math.round(255 * value)},${Math.round(255 * (1 - value))}`;
   }
 
   checkDigitsAvg(that) {
