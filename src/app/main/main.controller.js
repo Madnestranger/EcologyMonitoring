@@ -159,7 +159,7 @@ export class MainController {
       .post(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}`, {
         city: pollution.city,
         averageConcentration: pollution.avg,
-        mainLocation: pollution.mainLocation,
+        mainLocation: this.$stateParams.cityName,
         substanceId: pollution.substanceId
       })
       .then(response => {

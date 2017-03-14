@@ -20,6 +20,18 @@ export function routerConfig($stateProvider, $urlRouterProvider, $httpProvider) 
       controller: 'Lab3Controller',
       controllerAs: 'main'
     })
+    .state('lab4', {
+      url: '/lab4?{cityId&labId&cityName}',
+      templateUrl: 'app/lab4/lab4.html',
+      controller: 'Lab4Controller',
+      controllerAs: 'main'
+    })
+    .state('lab5', {
+      url: '/lab5?{cityId&labId&cityName}',
+      templateUrl: 'app/lab5/lab5.html',
+      controller: 'Lab5Controller',
+      controllerAs: 'main'
+    })
     .state('variant', {
       url: '/',
       templateUrl: 'app/variant/variant.html',

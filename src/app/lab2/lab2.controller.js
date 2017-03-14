@@ -176,7 +176,7 @@ export class Lab2Controller {
       .post(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}`, {
         city: pollution.city,
         averageConcentration: pollution.avg,
-        mainLocation: pollution.mainLocation,
+        mainLocation: this.$stateParams.cityName,
         substanceId: pollution.substanceId
       })
       .then(response => {
@@ -188,18 +188,14 @@ export class Lab2Controller {
 
   initMap() {
     if (!this.map) {
-
       this.$timeout(() => {
         google.maps.event.trigger(this.map, 'resize');
       }, 500);
-
       this.map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 50.4501, lng: 30.5234 },
         zoom: 5
       });
-
       this.polygons.get(`${this.$stateParams.cityId}`).then(response => {
-
         var town = new google.maps.Polygon({
           paths: response,
           strokeColor: '#5AADBB',
@@ -209,12 +205,8 @@ export class Lab2Controller {
           fillOpacity: 0.35
         });
         town.setMap(this.map);
-
         town.addListener('click', this.showTable.bind(this));
-
         this.infoWindow = new google.maps.InfoWindow;
-
-
       });
     }
   }

@@ -11,6 +11,8 @@ import { VariantController } from './variant/variant.controller';
 import { PolygonsService } from '../app/services/polygons.service.js';
 import { Lab2Controller } from './lab2/lab2.controller';
 import { Lab3Controller } from './lab3/lab3.controller';
+import { Lab4Controller } from './lab4/lab4.controller';
+import { Lab5Controller } from './lab5/lab5.controller';
 
 let API_URL = 'http://212.80.38.228:3333/';
 
@@ -27,4 +29,6 @@ angular.module('ecologyMonitoring', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSan
   .controller('VariantController', VariantController)
   .controller('Lab2Controller', Lab2Controller)
   .controller('Lab3Controller', Lab3Controller)
+  .controller('Lab4Controller', Lab4Controller)
+  .controller('Lab5Controller', Lab5Controller)
   .directive('acmeNavbar', NavbarDirective);

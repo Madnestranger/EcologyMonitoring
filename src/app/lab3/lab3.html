@@ -58,9 +58,6 @@
             <select name="" id="" class="form-control" ng-model="main.newPollution.substanceId"
                     ng-options="item._id as item.name for item in main.substances track by item._id"
                     required="true"></select>
-            <input type="text" placeholder="Name of your main city by variant:"
-                   ng-model="main.newPollution.mainLocation" required="true"
-                   class="form-control">
             <input type="text" placeholder="City:" ng-model="main.newPollution.city"
                    required="true" class="form-control">
             <input type="text" placeholder="Average concentration:" ng-model="main.newPollution.avg"
