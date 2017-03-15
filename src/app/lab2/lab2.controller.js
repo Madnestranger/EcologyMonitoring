@@ -61,12 +61,21 @@ export class Lab2Controller {
     this.$state = $state;
     this.$rootScope = $rootScope;
     this.newSubstance = {};
-    this.newPollution = {};
+    this.newPollution = {
+      type: "flow"
+    };
     this.currentTab = 'item';
     this.API_URL = API_URL;
     this.getData();
     this.getAllSubstances();
     this.$timeout = $timeout;
+
+    this.characteristics = ["",
+      "Незначний вплив на здоров'я населення",
+      "Слабкий вплив, граничні хронічні ефекти",
+      "Значний вплив, важкі хронічні ефекти",
+      "Великий вплив, важкі гострі ефекти",
+      "Дуже великий вплив, смертельні ефекти"];
 
     this.showTable = (event) => {
 
@@ -99,29 +108,56 @@ export class Lab2Controller {
     };
   }
 
+
+
   getCharacteristicOfWater(risk) {
     if (risk < 0.1) {
-      return "Незначний вплив на здоров'я населення"
+      return "Незначний вплив на здоров'я населення";
     }
     if (risk >= 0.1 && risk <= 0.19) {
-      return "Слабкий вплив, граничні хронічні ефекти"
+      return "Слабкий вплив, граничні хронічні ефекти";
     }
     if (risk >= 0.2 && risk <= 0.59) {
-      return "Значний вплив, важкі хронічні ефекти"
+      return "Значний вплив, важкі хронічні ефекти";
     }
     if (risk >= 0.6 && risk <= 0.89) {
-      return "Великий вплив, важкі гострі ефекти"
+      return "Великий вплив, важкі гострі ефекти";
     }
     if (risk >= 0.9 && risk <= 1) {
-      return "Дуже великий вплив, смертельні ефекти"
+      return "Дуже великий вплив, смертельні ефекти";
     }
+  }
+  getRiskCellColor(value) {
+    return `${Math.round(255 * value)},${Math.round(255 * (1 - value))}`;
   }
 
   getData() {
     this.$http
       .get(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}?city=${this.$stateParams.cityName}`)
       .then(response => {
-        this.pollutions = response.data;
+        this.pollutions = response.data.map(t => {
+          let dest = angular.extend({}, t, {
+            prob: this.getProbWater(t),
+            risk: this.getRiskWater(t),
+            characteristic: this.getCharacteristicOfWater(this.getRiskWater(t))
+          });
+          return dest;
+        });
+      });
+
+
+    this.$http
+      .get(`${this.API_URL}pollutionsRecreationsWater?city=${this.$stateParams.cityName}`)
+      .then(response => {
+        this.pollutions2 = response.data.map(t => {
+          t.gdk *= 0.7;
+          let dest = angular.extend({}, t, {
+            prob: this.getProbWater(t),
+            risk: this.getRiskWater(t),
+            characteristic: this.getCharacteristicOfWater(this.getRiskWater(t))
+          });
+          return dest;
+        });
       });
   }
 
@@ -172,18 +208,36 @@ export class Lab2Controller {
   }
 
   addItem(pollution) {
-    this.$http
-      .post(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}`, {
-        city: pollution.city,
-        averageConcentration: pollution.avg,
-        mainLocation: this.$stateParams.cityName,
-        substanceId: pollution.substanceId
-      })
-      .then(response => {
-        $("#addItemModal").modal('hide');
-        this.newPollution = {};
-        this.pollutions.push(response.data);
-      });
+
+    if (pollution.type == "flow") {
+      this.$http
+        .post(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}`, {
+          city: pollution.city,
+          averageConcentration: pollution.avg,
+          mainLocation: this.$stateParams.cityName,
+          substanceId: pollution.substanceId
+        })
+        .then(response => {
+          $("#addItemModal").modal('hide');
+          this.newPollution = {};
+          this.pollutions.push(response.data);
+        });
+    }
+    else {
+      this.$http
+        .post(`${this.API_URL}pollutionsRecreationsWater`, {
+          city: pollution.city,
+          averageConcentration: pollution.avg,
+          mainLocation: this.$stateParams.cityName,
+          substanceId: pollution.substanceId,
+          recreationZoneName: pollution.recreationZoneName
+        })
+        .then(response => {
+          $("#addItemModal").modal('hide');
+          this.newPollution = {};
+          this.pollutions2.push(response.data);
+        });
+    }
   }
 
   initMap() {

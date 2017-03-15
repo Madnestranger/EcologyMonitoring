@@ -79,28 +79,25 @@ export class MainController {
 
     this.showTable = (event) => {
 
-      var contentString = '<table class="table table-hover"><thead><tr>' +
-        '<td>Name</td>' +
-        '<td>Average conc.</td>' +
-        '<td>GDK</td>' +
-        '<td>Class of dang.</td>' +
-        '<td>Prob</td>' +
-        '<td>Risk</td>' +
+      let contentString = '<table class="table table-hover"><thead><tr>' +
+        '<th>Name</th>' +
+        '<th>Prob(токс. еф.)</th>' +
+        '<th>Risk(токс. еф.)</th>' +
+        '<th>Risk(зд. населення)</th>' +
         '</tr></thead><tbody>';
 
       self.pollutions.map(item => {
         var tr = `<tr><td>${item.name}</td>` +
-          `<td>${item.averageConcentration}</td>` +
-          `<td>${item.gdk}</td>` +
-          `<td>${item.classOfDangerous}</td>` +
           `<td>${self.getProbAir(item).toFixed(4)}</td>` +
+          `<td>${self.getEvalRisk(self.getProbAir(item)).toFixed(4)}</td>` +
           `<td>${self.getRiskAir(item).toFixed(4)}</td>` +
           '</tr>';
         contentString += tr;
       });
 
       contentString += '</tbody></table>';
-      console.log(contentString);
+
+
 
       self.infoWindow.setContent(contentString);
       self.infoWindow.setPosition(event.latLng);

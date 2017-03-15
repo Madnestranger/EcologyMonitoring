@@ -1,30 +1,101 @@
 <div class="container">
-  <div class="substContainer">
-    <div class="subst-header">
-      <div class="header-item">Name</div>
-      <div class="header-item">Water pool</div>
-      <div class="header-item">Average conc.</div>
-      <div class="header-item">GDK</div>
-      <div class="header-item">Prob</div>
-      <div class="header-item">Risk</div>
-      <div class="header-item">Characteristic</div>
+  <div class="row">
+    <div class="form-group">
+      <select name="characteristic" id="characteristic" class="form-control"
+        ng-model="characteristic" ng-options="item for item in main.characteristics">
+        <option style="display:none" value="">select a сharacteristic</option>
+      </select>
     </div>
-    <div class="substance" ng-repeat="item in main.pollutions track by $index">
-      <div class="table-container">
-        <div class="table-item">{{item.name}}</div>
-        <div class="table-item">{{item.city}}</div>
-        <div class="table-item">{{item.averageConcentration}}</div>
-        <div class="table-item">{{item.gdk}}</div>
-        <div class="table-item">{{main.getProbWater(item) | number: 4}}</div>
-        <div class="table-item">{{main.getRiskWater(item) | number: 4}}</div>
-        <div class="table-item">{{main.getCharacteristicOfWater(main.getRiskWater(item))}}</div>
-      </div>
-    </div>
+    <uib-tabset active="active">
+      <uib-tab index="0" heading="Table 1">
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th>
+                <span ng-click="sortType = 'name'; sortReverse = !sortReverse">
+            Name
+            <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+                </span>
+              </th>
+              <th>Water pool</th>
+              <th>Average conc.</th>
+              <th>GDK</th>
+              <th>Prob</th>
+              <th>
+                <span ng-click="sortType = 'risk'; sortReverse = !sortReverse">
+            Risk
+            <span ng-show="sortType == 'risk' && !sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="sortType == 'risk' && sortReverse" class="fa fa-caret-up"></span>
+                </span>
+              </th>
+              <th>
+                Characteristic
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in main.pollutions | filter:{characteristic:characteristic} | orderBy:sortType:sortReverse track by item._id">
+              <td>{{item.name}}</td>
+              <td>{{item.city}}</td>
+              <td>{{item.averageConcentration}}</td>
+              <td>{{item.gdk}}</td>
+              <td>{{item.prob | number: 4}}</td>
+              <td ng-style="{'background-color':'rgba({{main.getRiskCellColor(item.risk)}},0,0.5)'}">{{item.risk | number: 4}}</td>
+              <td>{{item.characteristic}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </uib-tab>
+      <uib-tab index="1" heading="Table 2">
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th>
+                <span ng-click="sortType2 = 'name'; sortReverse2 = !sortReverse2">
+                  Name
+                <span ng-show="sortType2 == 'name' && !sortReverse2" class="fa fa-caret-down"></span>
+                <span ng-show="sortType2 == 'name' && sortReverse2" class="fa fa-caret-up"></span>
+                </span>
+              </th>
+              <th>Water pool</th>
+              <th>Recreationalzone name</th>
+              <th>Average conc.</th>
+              <th>GDK</th>
+              <th>Prob</th>
+              <th>
+                <span ng-click="sortType2 = 'risk'; sortReverse2 = !sortReverse2">
+                  Risk
+                 <span ng-show="sortType2 == 'risk' && !sortReverse2" class="fa fa-caret-down"></span>
+                <span ng-show="sortType2 == 'risk' && sortReverse2" class="fa fa-caret-up"></span>
+                </span>
+              </th>
+              <th>
+                Characteristic
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in main.pollutions2 | orderBy:sortType2:sortReverse2 | filter:{characteristic:characteristic} track by item._id">
+              <td>{{item.name}}</td>
+              <td>{{item.city}}</td>
+              <td>{{item.recreationZoneName}}</td>
+              <td>{{item.averageConcentration}}</td>
+              <td>{{item.gdk}}</td>
+              <td>{{item.prob | number: 4}}</td>
+              <td ng-style="{'background-color':'rgba({{main.getRiskCellColor(item.risk)}},0,0.5)'}">{{item.risk | number: 4}}</td>
+              <td>{{item.characteristic}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </uib-tab>
+    </uib-tabset>
+
+
   </div>
 </div>
 
-<div ng-show="main.showMap" class="map-container"
-     ng-click="main.showMap = !main.showMap">
+<div ng-show="main.showMap" class="map-container" ng-click="main.showMap = !main.showMap">
   <div class="btn-close">
     &#10006;
   </div>
@@ -47,36 +118,52 @@
       <div class="modal-body">
         <div class="navTabs">
           <a aria-controls="addItemForm" role="tab" data-toggle="tab" href="#addItemForm"
-             ng-class="{'active' : main.currentTab == 'item'}" ng-click="main.changeTab('item');" onclick="event.preventDefault();">
+            ng-class="{'active' : main.currentTab == 'item'}" ng-click="main.changeTab('item');"
+            onclick="event.preventDefault();">
             Add Item
           </a>
           <a class="kl-first-level-item" aria-controls="addSubstanceForm"
-             role="tab" data-toggle="tab" ng-class="{'active' : main.currentTab == 'substance'}"
-             ng-click="main.changeTab('substance');" href="#addSubstanceForm" onclick="event.preventDefault();">
+            role="tab" data-toggle="tab" ng-class="{'active' : main.currentTab == 'substance'}"
+            ng-click="main.changeTab('substance');" href="#addSubstanceForm"
+            onclick="event.preventDefault();">
             Add Substance
           </a>
         </div>
         <div class="tab-content">
           <form action="" name="addItemForm" id="addItemForm" role="tabpanel"
-                class="tab-pane active" onsubmit="event.preventDefault();">
+            class="tab-pane active" onsubmit="event.preventDefault();">
             <select name="" id="" class="form-control" ng-model="main.newPollution.substanceId"
-                    ng-options="item._id as item.name for item in main.substances track by item._id"
-                    required="true"></select>
-            <input type="text" placeholder="City:" ng-model="main.newPollution.city"
-                   required="true" class="form-control">
+              ng-options="item._id as item.name for item in main.substances track by item._id"
+              required="true"></select>
+            <input type="text" placeholder="Water pool:" ng-model="main.newPollution.city"
+              required="true" class="form-control">
             <input type="text" placeholder="Average concentration:" ng-model="main.newPollution.avg"
-                   required="true" class="form-control" ng-keyup="main.checkDigitsAvg(this)">
+              required="true" class="form-control" ng-keyup="main.checkDigitsAvg(this)">
+
+
+            <div class="radio">
+              <label><input type="radio" ng-model="main.newPollution.type" value="flow">Flowing</label>
+            </div>
+            <div class="radio">
+              <label><input type="radio" ng-model="main.newPollution.type" value="recr">Recreational</label>
+            </div>
+
+            <input type="text" ng-if="main.newPollution.type == 'recr'" placeholder="Recreation zone name:"
+              ng-model="main.newPollution.recreationZoneName" required="true"
+              class="form-control">
+
+
             <button class="btn btn-default" ng-disabled="addItemForm.$invalid"
-                    ng-click="main.addItem(main.newPollution)">Add</button>
+              ng-click="main.addItem(main.newPollution)">Add</button>
           </form>
           <form action="" name="addSubstanceForm" id="addSubstanceForm"
-                role="tabpanel" class="tab-pane" onsubmit="event.preventDefault();">
+            role="tabpanel" class="tab-pane" onsubmit="event.preventDefault();">
             <input type="text" placeholder="Name:" ng-model="main.newSubstance.name"
-                   required="true" class="form-control">
+              required="true" class="form-control">
             <input type="text" placeholder="GDK:" ng-model="main.newSubstance.gdk"
-                   required="true" class="form-control" ng-keyup="main.checkDigitsGDK(this)">
+              required="true" class="form-control" ng-keyup="main.checkDigitsGDK(this)">
             <button class="btn btn-default" ng-disabled="addSubstanceForm.$invalid"
-                    ng-click="main.addSubstance(main.newSubstance)">Add</button>
+              ng-click="main.addSubstance(main.newSubstance)">Add</button>
           </form>
         </div>
       </div>
