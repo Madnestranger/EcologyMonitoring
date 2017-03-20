@@ -77,15 +77,11 @@ export class Lab3Controller {
 
       var contentString = '<table class="table table-hover"><thead><tr>' +
         '<td>Name</td>' +
-        '<td>Average conc.</td>' +
-        '<td>Area</td>' +
         '<td>Risk</td>' +
         '</tr></thead><tbody>';
 
       self.pollutions.map(item => {
         var tr = `<tr><td>${item.name}</td>` +
-          `<td>${item.averageConcentration}</td>` +
-          `<td>${item.area}</td>` +
           `<td>${self.getRiskEarth(item).toFixed(4)}</td>` +
           '</tr>';
         contentString += tr;
