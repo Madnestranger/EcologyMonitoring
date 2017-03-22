@@ -1,26 +1,41 @@
 <div class="container">
-  <div class="substContainer">
-    <div class="subst-header">
-      <div class="header-item">Name</div>
-      <div class="header-item">City (or region)</div>
-      <div class="header-item">Average conc.</div>
-      <div class="header-item">Area</div>
-      <div class="header-item">Risk</div>
-    </div>
-    <div class="substance" ng-repeat="item in main.pollutions track by $index">
-      <div class="table-container">
-        <div class="table-item">{{item.name}}</div>
-        <div class="table-item">{{item.city}}</div>
-        <div class="table-item">{{item.averageConcentration}}</div>
-        <div class="table-item">{{item.area}}</div>
-        <div class="table-item">{{main.getRiskEarth(item) | number: 4}}</div>
-      </div>
-    </div>
-  </div>
+
+  <table class="table table-hover table-striped">
+    <thead>
+      <tr>
+        <th>
+          <span ng-click="sortType = 'name'; sortReverse = !sortReverse">
+            Назва
+            <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+          <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+          </span>
+        </th>
+        <th>Місто (або область)</th>
+        <th>Середня конц.</th>
+        <th>Площа</th>
+        <th>
+          <span ng-click="sortType = 'risk'; sortReverse = !sortReverse">
+            Risk
+            <span ng-show="sortType == 'risk' && !sortReverse" class="fa fa-caret-down"></span>
+          <span ng-show="sortType == 'risk' && sortReverse" class="fa fa-caret-up"></span>
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in main.pollutions | orderBy:sortType:sortReverse track by item._id">
+        <td>{{item.name}}</td>
+        <td>{{item.city}}</td>
+        <td>{{item.averageConcentration}}</td>
+        <td>{{item.area}}</td>
+        <td ng-style="{'background-color':'rgba({{main.getRiskCellColor(item.risk)}},0,0.5)'}">{{item.risk | number: 4}}</td>
+      </tr>
+    </tbody>
+  </table>
+
 </div>
 
-<div ng-show="main.showMap" class="map-container"
-     ng-click="main.showMap = !main.showMap">
+<div ng-show="main.showMap" class="map-container" ng-click="main.showMap = !main.showMap">
   <div class="btn-close">
     &#10006;
   </div>
@@ -38,41 +53,43 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Adding information to database</h4>
+        <h4 class="modal-title">Додати нову інформацію до бази</h4>
       </div>
       <div class="modal-body">
         <div class="navTabs">
           <a aria-controls="addItemForm" role="tab" data-toggle="tab" href="#addItemForm"
-             ng-class="{'active' : main.currentTab == 'item'}" ng-click="main.changeTab('item');" onclick="event.preventDefault();">
-            Add Item
+            ng-class="{'active' : main.currentTab == 'item'}" ng-click="main.changeTab('item');"
+            onclick="event.preventDefault();">
+            Додати поле
           </a>
           <a class="kl-first-level-item" aria-controls="addSubstanceForm"
-             role="tab" data-toggle="tab" ng-class="{'active' : main.currentTab == 'substance'}"
-             ng-click="main.changeTab('substance');" href="#addSubstanceForm" onclick="event.preventDefault();">
-            Add Substance
+            role="tab" data-toggle="tab" ng-class="{'active' : main.currentTab == 'substance'}"
+            ng-click="main.changeTab('substance');" href="#addSubstanceForm"
+            onclick="event.preventDefault();">
+            Додати речовину
           </a>
         </div>
         <div class="tab-content">
           <form action="" name="addItemForm" id="addItemForm" role="tabpanel"
-                class="tab-pane active" onsubmit="event.preventDefault();">
+            class="tab-pane active" onsubmit="event.preventDefault();">
             <select name="" id="" class="form-control" ng-model="main.newPollution.substanceId"
-                    ng-options="item._id as item.name for item in main.substances track by item._id"
-                    required="true"></select>
-            <input type="text" placeholder="City:" ng-model="main.newPollution.city"
-                   required="true" class="form-control">
-            <input type="text" placeholder="Average concentration:" ng-model="main.newPollution.avg"
-                   required="true" class="form-control" ng-keyup="main.checkDigitsAvg(this)">
-            <input type="text" placeholder="Area:" ng-model="main.newPollution.area"
-                   required="true" class="form-control">
+              ng-options="item._id as item.name for item in main.substances track by item._id"
+              required="true"></select>
+            <input type="text" placeholder="Місто:" ng-model="main.newPollution.city"
+              required="true" class="form-control">
+            <input type="text" placeholder="Середня концентрація:" ng-model="main.newPollution.avg"
+              required="true" class="form-control" ng-keyup="main.checkDigitsAvg(this)">
+            <input type="text" placeholder="Площа:" ng-model="main.newPollution.area"
+              required="true" class="form-control">
             <button class="btn btn-default" ng-disabled="addItemForm.$invalid"
-                    ng-click="main.addItem(main.newPollution)">Add</button>
+              ng-click="main.addItem(main.newPollution)">Додати</button>
           </form>
           <form action="" name="addSubstanceForm" id="addSubstanceForm"
-                role="tabpanel" class="tab-pane" onsubmit="event.preventDefault();">
-            <input type="text" placeholder="Name:" ng-model="main.newSubstance.name"
-                   required="true" class="form-control">
+            role="tabpanel" class="tab-pane" onsubmit="event.preventDefault();">
+            <input type="text" placeholder="Ім'я:" ng-model="main.newSubstance.name"
+              required="true" class="form-control">
             <button class="btn btn-default" ng-disabled="addSubstanceForm.$invalid"
-                    ng-click="main.addSubstance(main.newSubstance)">Add</button>
+              ng-click="main.addSubstance(main.newSubstance)">Додати</button>
           </form>
         </div>
       </div>

@@ -100,7 +100,13 @@ export class Lab3Controller {
     this.$http
       .get(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}?city=${this.$stateParams.cityName}`)
       .then(response => {
-        this.pollutions = response.data;
+        this.pollutions = response.data.map(item => {
+          debugger;
+          item.risk = this.getRiskEarth(item)
+          return item;
+        });
+
+
       });
   }
 
@@ -154,6 +160,10 @@ export class Lab3Controller {
         this.newPollution = {};
         this.pollutions.push(response.data);
       });
+  }
+
+  getRiskCellColor(value) {
+    return `${Math.round(255 * value)},${Math.round(255 * (1 - value))}`;
   }
 
   initMap() {

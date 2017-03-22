@@ -13,10 +13,10 @@
                 <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
                 </span>
               </th>
-              <th>City (or region)</th>
-              <th>Average conc.</th>
-              <th>GDK</th>
-              <th>Class of dang.</th>
+              <th>Місто (або область)</th>
+              <th>Середня конц.</th>
+              <th>ГДК</th>
+              <th>Клас небезпеки</th>
               <th>Prob</th>
               <th>
                 <span ng-click="sortType = 'risk'; sortReverse = !sortReverse">
@@ -46,15 +46,15 @@
             <tr>
               <th>
                 <span ng-click="sortType2 = 'name'; sortReverse2 = !sortReverse2">
-            Name
+            Назва
             <span ng-show="sortType2 == 'name' && !sortReverse2" class="fa fa-caret-down"></span>
                 <span ng-show="sortType2 == 'name' && sortReverse2" class="fa fa-caret-up"></span>
                 </span>
               </th>
-              <th>City (or region)</th>
-              <th>Average conc.</th>
-              <th>GDK</th>
-              <th>Class of dang.</th>
+              <th>Місто (або область)</th>
+              <th>Середня конц.</th>
+              <th>ГДК</th>
+              <th>Клас небезпеки</th>
               <th>K</th>
               <th>b</th>
               <th>
@@ -104,20 +104,20 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Adding information to database</h4>
+        <h4 class="modal-title">Додати нову інформацію до бази</h4>
       </div>
       <div class="modal-body">
         <div class="navTabs">
           <a aria-controls="addItemForm" role="tab" data-toggle="tab" href="#addItemForm"
             ng-class="{'active' : main.currentTab == 'item'}" ng-click="main.changeTab('item');"
             onclick="event.preventDefault();">
-            Add Item
+            Додати поле
           </a>
           <a class="kl-first-level-item" aria-controls="addSubstanceForm"
             role="tab" data-toggle="tab" ng-class="{'active' : main.currentTab == 'substance'}"
             ng-click="main.changeTab('substance');" href="#addSubstanceForm"
             onclick="event.preventDefault();">
-            Add Substance
+            Додати речовину
           </a>
         </div>
         <div class="tab-content">
@@ -126,23 +126,23 @@
             <select name="" id="" class="form-control" ng-model="main.newPollution.substanceId"
               ng-options="item._id as item.name for item in main.substances track by item._id"
               required="true"></select>
-            <input type="text" placeholder="City:" ng-model="main.newPollution.city"
+            <input type="text" placeholder="Місто:" ng-model="main.newPollution.city"
               required="true" class="form-control">
-            <input type="text" placeholder="Average concentration:" ng-model="main.newPollution.avg"
+            <input type="text" placeholder="Середня концентрація:" ng-model="main.newPollution.avg"
               required="true" class="form-control" ng-keyup="main.checkDigitsAvg(this)">
             <button class="btn btn-default" ng-disabled="addItemForm.$invalid"
-              ng-click="main.addItem(main.newPollution)">Add</button>
+              ng-click="main.addItem(main.newPollution)">Додати</button>
           </form>
           <form action="" name="addSubstanceForm" id="addSubstanceForm"
             role="tabpanel" class="tab-pane" onsubmit="event.preventDefault();">
-            <input type="text" placeholder="Name:" ng-model="main.newSubstance.name"
+            <input type="text" placeholder="Ім'я:" ng-model="main.newSubstance.name"
               required="true" class="form-control">
-            <input type="text" placeholder="GDK:" ng-model="main.newSubstance.gdk"
+            <input type="text" placeholder="ГДК:" ng-model="main.newSubstance.gdk"
               required="true" class="form-control" ng-keyup="main.checkDigitsGDK(this)">
-            <input type="number" placeholder="Class of dangerous:" ng-model="main.newSubstance.classDanger"
+            <input type="number" placeholder="Клас небезпеки:" ng-model="main.newSubstance.classDanger"
               required="true" class="form-control" max="4">
             <button class="btn btn-default" ng-disabled="addSubstanceForm.$invalid"
-              ng-click="main.addSubstance(main.newSubstance)">Add</button>
+              ng-click="main.addSubstance(main.newSubstance)">Додати</button>
           </form>
         </div>
       </div>

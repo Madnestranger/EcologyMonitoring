@@ -70,12 +70,84 @@ export class Lab2Controller {
     this.getAllSubstances();
     this.$timeout = $timeout;
 
-    this.characteristics = ["",
-      "Незначний вплив на здоров'я населення",
-      "Слабкий вплив, граничні хронічні ефекти",
-      "Значний вплив, важкі хронічні ефекти",
-      "Великий вплив, важкі гострі ефекти",
-      "Дуже великий вплив, смертельні ефекти"];
+
+
+    this.modes = [{
+      name: "Оцінка потенційного ризику за органолептичними показниками якості питної води",
+      id: 1,
+      drink: {
+        prob: item => {
+          let c = item.c || 1,
+            dest = -2 + 3.32 * Math.log(c / item.gdk);
+
+          return dest;
+        },
+        risk: item => {
+          let dest = 0;
+          return dest;
+        }
+      },
+      recreation: {
+        prob: item => {
+          let dest = 0;
+          return dest;
+        },
+        risk: item => {
+          let dest = 0;
+          return dest;
+        }
+      }
+    },
+    {
+      name: "Оцінка потенційного ризику епідеміологічної небезпеки питної води",
+      id: 2,
+      drink: {
+        prob: item => {
+          let dest = 0;
+          return dest;
+        },
+        risk: item => {
+          let dest = 0;
+          return dest;
+        }
+      },
+      recreation: {
+        prob: item => {
+          let dest = 0;
+          return dest;
+        },
+        risk: item => {
+          let dest = 0;
+          return dest;
+        }
+      }
+    },
+    {
+      name: "Оцінка потенційного ризику токсикологічної небезпеки питної води",
+      id: 3,
+      drink: {
+        prob: item => {
+          let dest = 0;
+          return dest;
+        },
+        risk: item => {
+          let dest = 0;
+          return dest;
+        }
+      },
+      recreation: {
+        prob: item => {
+          let dest = 0;
+          return dest;
+        },
+        risk: item => {
+          let dest = 0;
+          return dest;
+        }
+      }
+    }];
+
+
 
     this.showTable = (event) => {
 
@@ -106,6 +178,7 @@ export class Lab2Controller {
 
       self.infoWindow.open(self.map);
     };
+
   }
 
 
@@ -130,6 +203,11 @@ export class Lab2Controller {
   getRiskCellColor(value) {
     return `${Math.round(255 * value)},${Math.round(255 * (1 - value))}`;
   }
+
+  changeMode() {
+
+  }
+
 
   getData() {
     this.$http

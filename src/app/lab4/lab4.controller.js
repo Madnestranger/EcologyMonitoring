@@ -189,9 +189,9 @@ export class Lab4Controller {
     this.showTable = (event) => {
 
       var contentString = '<table class="table table-hover"><thead><tr>' +
-        '<td>Illness name</td>' +
-        '<td>First upcoming</td>' +
-        '<td>First upcoming precision</td>' +
+        '<td>Захворювання</td>' +
+        '<td>Перший випадок</td>' +
+        '<td>Точність першого випадка</td>' +
         '</tr></thead><tbody>';
 
       self.pollutions.map(item => {

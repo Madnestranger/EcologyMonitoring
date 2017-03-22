@@ -8,23 +8,23 @@ export class VariantController {
     this.getCities();
     this.labs = [
       {
-        name: 'Lab 1',
+        name: 'Лабораторна 1',
         id: 1
       },
       {
-        name: 'Lab 2',
+        name: 'Лабораторна 2',
         id: 2
       },
       {
-        name: 'Lab 3',
+        name: 'Лабораторна 3',
         id: 3
       },
       {
-        name: 'Lab 4',
+        name: 'Лабораторна 4',
         id: 4
       },
       {
-        name: 'Lab 5',
+        name: 'Лабораторна 5',
         id: 5
       }
     ];

@@ -1,11 +1,11 @@
 <div class="container">
   <div class="substContainer">
     <div class="subst-header">
-      <div class="header-item">Illness name</div>
-      <div class="header-item">Spread</div>
-      <div class="header-item">Spread precision</div>
-      <div class="header-item">First upcoming</div>
-      <div class="header-item">First upcoming precision</div>
+      <div class="header-item">Захворювання</div>
+      <div class="header-item">Поширювання</div>
+      <div class="header-item">Точність поширювання</div>
+      <div class="header-item">Перший випадок</div>
+      <div class="header-item">Точність першого випадка</div>
     </div>
     <div class="substance" ng-repeat="item in main.pollutions track by $index">
       <div class="table-container">
@@ -38,7 +38,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Adding information to database</h4>
+        <h4 class="modal-title">Додати нову інформацію до бази</h4>
       </div>
       <div class="modal-body">
         <div class="tab-content">
@@ -59,7 +59,7 @@
             <input type="text" placeholder="X5:" ng-model="main.newPollution.x5"
                    required="true" class="form-control" ng-if="main.inputAmounts >= 5">
             <button class="btn btn-default" ng-disabled="addItemForm.$invalid"
-                    ng-click="main.addItem(main.newPollution)">Add</button>
+                    ng-click="main.addItem(main.newPollution)">Додати</button>
           </form>
         </div>
       </div>

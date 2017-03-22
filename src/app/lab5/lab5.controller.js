@@ -165,11 +165,11 @@ export class Lab5Controller {
     this.showTable = (event) => {
 
       var contentString = '<table class="table table-hover"><thead><tr>' +
-        '<td>Illness name</td>' +
-        '<td>Spread</td>' +
-        '<td>Spread precision</td>' +
-        '<td>First upcoming</td>' +
-        '<td>First upcoming precision</td>' +
+        '<td>Захворювання</td>' +
+        '<td>Поширювання</td>' +
+        '<td>Точність поширювання</td>' +
+        '<td>Перший випадок</td>' +
+        '<td>Точність першого випадка</td>' +
         '</tr></thead><tbody>';
 
       self.pollutions.map(item => {
