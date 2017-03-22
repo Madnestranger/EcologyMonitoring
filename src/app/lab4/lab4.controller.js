@@ -74,6 +74,9 @@ export class Lab4Controller {
     this.API_URL = API_URL;
     this.getData();
     this.$timeout = $timeout;
+
+    this.target = {};
+
     this.illness = [
       {
         name: 'Гострий інфаркт міокарда',
@@ -81,73 +84,93 @@ export class Lab4Controller {
         amount: 1,
         spreadCorrelation: 0.91,
         firstUpcomingCorrelation: '-',
-        x1: "об’єм скидання недостатньо очищених стічних вод у поверхневі водні об’єкти",
-        x2: "викиди в атмосферне повітря хімічних речовин пересувними установками",
-        x3: "викиди в атмосферне повітря хімічних речовин стаціонарними установками у поточному році",
-        x4: "викиди в атмосферне повітря хімічних речовин стаціонарними установками на два роки раніше"
+        x1: "Об’єм скидання недостатньо очищених стічних вод у поверхневі водні об’єкти",
+        x2: "Викиди в атмосферне повітря хімічних речовин пересувними установками",
+        x3: "Викиди в атмосферне повітря хімічних речовин стаціонарними установками у поточному році",
+        x4: "Викиди в атмосферне повітря хімічних речовин стаціонарними установками на два роки раніше"
       },
       {
         name: 'Мозковий інсульт',
         id: 2,
         amount: 1,
         spreadCorrelation: 0.6,
-        firstUpcomingCorrelation: '-'
+        firstUpcomingCorrelation: '-',
+        x1: "Скидання забруднених стічних вод у поверхневі водні поточного року",
+        x2: "Викиди в атмосферне повітря хімічних речовин стаціонарними установками у поточному році"
       },
       {
         name: 'Хронічні цереброласкулярна патологія',
         id: 3,
         amount: 1,
         spreadCorrelation: 0.63,
-        firstUpcomingCorrelation: '-'
+        firstUpcomingCorrelation: '-',
+        x1: "Викиди в атмосферне повітря хімічних речовин стаціонарними установками у поточному році",
+        x2: "Cкидання недостатньо очищених стічних вод у поверхневі водні об’єкти на п’ять років раніше"
       },
       {
         name: 'Доброякісні новоутворення',
         id: 4,
         amount: 1,
         spreadCorrelation: 0.81,
-        firstUpcomingCorrelation: '-'
+        firstUpcomingCorrelation: '-',
+        x1: "Викиди газоподібних речовин в атмосферне повітря на п’ять років раніше",
+        x2: "Викиди в атмосферне повітря пересувними засобами на п’ять років раніше, тис. т",
+        x3: "Скидання недостатньо очищених стічних вод на два роки раніше, млн. м3",
+        x4: "Скидання забруднених стічних вод у поточному році, млн. м3",
+        x5: "Скидання забруднених стічних вод на п’ять років раніше, млн. м3"
       },
       {
         name: 'Злоякісні новоутворення',
         id: 5,
         amount: 2,
         spreadCorrelation: '-',
-        firstUpcomingCorrelation: '-'
+        firstUpcomingCorrelation: '-',
+        x1: "Динаміка викидів і атмосферне повітря пересувними засобами за останні три роки"
       },
       {
         name: 'Ендокринна захворюваність',
         id: 6,
         amount: 1,
         spreadCorrelation: 0.6,
-        firstUpcomingCorrelation: '-'
+        firstUpcomingCorrelation: '-',
+        x1: "Динаміка скидання забруднених стічних вод (за останні три роки)"
       },
       {
         name: 'Вузловий зоб',
         id: 7,
         amount: 2,
         spreadCorrelation: 0.63,
-        firstUpcomingCorrelation: 0.8
+        firstUpcomingCorrelation: 0.8,
+        x1: "Динаміка скидання недостатньо очищених стічних вод (за останні п’ять років)",
+        x2: "Динаміка скидання забруднених стічних вод (за останні три роки)"
       },
       {
         name: 'Тиреотоксикоз',
         id: 8,
         amount: 2,
         spreadCorrelation: 0.42,
-        firstUpcomingCorrelation: 0.6
+        firstUpcomingCorrelation: 0.6,
+        x1: "Скидання неочищених стічних вод, млн. м 3",
+        x2: "Викиди газоподібних речовин в атмосферне повітря на п’ять років раніше"
       },
       {
         name: 'Гіпотиреоз',
         id: 9,
         amount: 2,
         spreadCorrelation: 0.86,
-        firstUpcomingCorrelation: 0.95
+        firstUpcomingCorrelation: 0.95,
+        x1: "Динаміка скидання недостатньо очищених стічних вод (за останні три роки)",
+        x2: "Динаміка скидання забруднених стічних вод (за останні п’ять років)",
+        x3: "Динаміка скидання недостатньо очищених стічних вод (за останні п’ять років)",
+        x4: "Динаміка скидання забруднених стічних вод (за останні три роки)"
       },
       {
         name: 'Цукровий діабет',
         id: 10,
         amount: 1,
         spreadCorrelation: 0.53,
-        firstUpcomingCorrelation: '-'
+        firstUpcomingCorrelation: '-',
+        x1: "Динаміка скидання недостатньо очищених стічних вод, млн. м3"
       }
     ];
     this.amountX = {
@@ -167,18 +190,14 @@ export class Lab4Controller {
 
       var contentString = '<table class="table table-hover"><thead><tr>' +
         '<td>Illness name</td>' +
-        '<td>Spread</td>' +
-        '<td>Spread precision</td>' +
         '<td>First upcoming</td>' +
         '<td>First upcoming precision</td>' +
         '</tr></thead><tbody>';
 
       self.pollutions.map(item => {
-        var tr = `<tr><td>${self.illness[item.illnessId].name}</td>` +
-          `<td>${item.spread}</td>` +
-          `<td>${self.illness[item.illnessId].spreadCorrelation}</td>` +
-          `<td>${item.firstUpcoming}</td>` +
-          `<td>${self.illness[item.illnessId].firstUpcomingCorrelation}</td>` +
+        var tr = `<tr><td>${item.name}</td>` +
+          `<td>${item.firstUpCom.toFixed ? item.firstUpCom.toFixed(4) : item.firstUpCom}</td>` +
+          `<td>${item.firstUpComCor}</td>` +
           '</tr>';
         contentString += tr;
       });
@@ -194,13 +213,25 @@ export class Lab4Controller {
 
   chooseInputs(id) {
     this.inputAmounts = this.amountX[id];
+    this.target = this.illness.find(item => item.id === id);
   }
 
   getData() {
     this.$http
       .get(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}?city=${this.$stateParams.cityName}`)
       .then(response => {
-        this.pollutions = response.data;
+        this.pollutions = response.data.map(item => {
+          let illnes = this.illness[item.illnessId],
+            dest = {
+              name: illnes.name,
+              spread: item.spread,
+              spreadPr: illnes.spreadCorrelation,
+              firstUpCom: item.firstUpcoming,
+              firstUpComCor: illnes.firstUpcomingCorrelation
+            };
+          return dest;
+
+        });
       });
   }
 
@@ -285,7 +316,7 @@ export class Lab4Controller {
       }, 500);
 
       this.map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 50.4501, lng: 30.5234},
+        center: { lat: 50.4501, lng: 30.5234 },
         zoom: 5
       });
 
