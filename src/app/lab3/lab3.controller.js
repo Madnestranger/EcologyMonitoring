@@ -101,7 +101,6 @@ export class Lab3Controller {
       .get(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}?city=${this.$stateParams.cityName}`)
       .then(response => {
         this.pollutions = response.data.map(item => {
-          debugger;
           item.risk = this.getRiskEarth(item)
           return item;
         });
@@ -152,8 +151,7 @@ export class Lab3Controller {
         city: pollution.city,
         averageConcentration: pollution.avg,
         mainLocation: this.$stateParams.cityName,
-        substanceId: pollution.substanceId,
-        area: pollution.area
+        substanceId: pollution.substanceId
       })
       .then(response => {
         $("#addItemModal").modal('hide');

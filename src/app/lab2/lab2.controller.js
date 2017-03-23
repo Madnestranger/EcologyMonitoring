@@ -5,6 +5,9 @@ export class Lab2Controller {
     var self = this,
       labId = $stateParams.labId;
 
+    var OSF = 0.84;
+    
+
     $scope.$on('open.map', () => {
       this.showMap = true;
       this.initMap();

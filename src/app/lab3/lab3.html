@@ -12,7 +12,6 @@
         </th>
         <th>Місто (або область)</th>
         <th>Середня конц.</th>
-        <th>Площа</th>
         <th>
           <span ng-click="sortType = 'risk'; sortReverse = !sortReverse">
             Risk
@@ -27,7 +26,6 @@
         <td>{{item.name}}</td>
         <td>{{item.city}}</td>
         <td>{{item.averageConcentration}}</td>
-        <td>{{item.area}}</td>
         <td ng-style="{'background-color':'rgba({{main.getRiskCellColor(item.risk)}},0,0.5)'}">{{item.risk | number: 4}}</td>
       </tr>
     </tbody>
@@ -77,10 +75,8 @@
               required="true"></select>
             <input type="text" placeholder="Місто:" ng-model="main.newPollution.city"
               required="true" class="form-control">
-            <input type="text" placeholder="Середня концентрація:" ng-model="main.newPollution.avg"
+            <input type="text" placeholder="Середня концентрація речовини у воді:" ng-model="main.newPollution.avg"
               required="true" class="form-control" ng-keyup="main.checkDigitsAvg(this)">
-            <input type="text" placeholder="Площа:" ng-model="main.newPollution.area"
-              required="true" class="form-control">
             <button class="btn btn-default" ng-disabled="addItemForm.$invalid"
               ng-click="main.addItem(main.newPollution)">Додати</button>
           </form>
