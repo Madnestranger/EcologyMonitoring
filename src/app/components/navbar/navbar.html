@@ -15,8 +15,20 @@
       <ul class="nav navbar-nav">
         <li ng-hide="vm.$state.current.name=='variant'"><button class="btn btn-default btn-map" ng-click="vm.openMap()"><i class="glyphicon glyphicon-globe"></i></button></li>
         <li ng-hide="vm.$state.current.name=='variant'"><a ui-sref="variant">Обрати</a></li>
+        <div class="label-name" ng-hide="vm.$state.current.name=='variant' || vm.$stateParams.labId != 1">
+          <span>Тема роботи: </span><span>Оцінка потенційного ризику здоров’я населення в залежності від якості атмосферного повітря.</span>
+        </div>
+        <div class="label-name" ng-hide="vm.$state.current.name=='variant' || vm.$stateParams.labId != 2">
+          <span>Тема роботи: </span><span>Оцінка потенціального ризику здоров’ю населення в залежності від якості води.</span>
+        </div>
         <div class="label-name" ng-hide="vm.$state.current.name=='variant' || vm.$stateParams.labId != 3">
-          <span>Оцінка потенційного ризику здоров’ю населення в залежності від якості ґрунту.</span>
+          <span>Тема роботи: </span><span>Оцінка потенційного ризику здоров’ю населення в залежності від якості ґрунту.</span>
+        </div>
+        <div class="label-name" ng-hide="vm.$state.current.name=='variant' || vm.$stateParams.labId != 4">
+          <span>Тема роботи: </span><span>Прогнозування виникнення захворювань унаслідок негативного впливу техногенних чинників навколишнього середовища.</span>
+        </div>
+        <div class="label-name" ng-hide="vm.$state.current.name=='variant' || vm.$stateParams.labId != 5">
+          <span>Тема роботи: </span><span>Визначення величини збитків від наслідків забруднення навколишнього середовища.</span>
         </div>
         <div ng-hide="vm.$state.current.name=='variant'" class="addItemBox" data-toggle="modal" data-target="#addItemModal">
           <button class="btn btn-default btn-map btn-modal">

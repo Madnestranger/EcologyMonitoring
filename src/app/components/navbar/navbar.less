@@ -41,6 +41,10 @@
   color: #5AADBB;
   display: inline-block;
   margin: 14px;
+  span:first-of-type {
+    color: #fff;
+    margin-right: 15px;
+  }
 }
 
 #addItemModal {
@@ -94,6 +98,23 @@
     }
     &:hover {
       background-color: darken(#fff, 5%);
+    }
+  }
+}
+
+.lab4Container {
+  div:first-of-type {
+    display: flex;
+    ul:first-of-type {
+      flex-basis: 10%;
+      li {
+        width: 100%;
+      }
+    }
+  }
+  table {
+    tr th {
+      vertical-align: top;
     }
   }
 }
