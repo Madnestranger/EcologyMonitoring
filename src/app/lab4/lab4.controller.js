@@ -178,7 +178,7 @@ export class Lab4Controller {
       let columns = [],
         props = Object.keys(t);
 
-      props.filter(p => /x[0-1]{1,2}$/.test(p)).map(prop => {
+      props.filter(p => /x[0-9]{1,2}$/.test(p)).map(prop => {
         columns.push(t[prop]);
       });
 
@@ -257,17 +257,37 @@ export class Lab4Controller {
   }
 
   getData() {
-    this.$http
-      .get(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}?city=${this.$stateParams.cityName}`)
+    var self = this;
+    self.$http
+      .get(`${self.API_URL}${self.requestsForLab[self.$stateParams.labId].pollution}?city=${self.$stateParams.cityName}`)
       .then(response => {
+        console.dir(response.data);
         response.data.map(item => {
-          let illness = this.illness[item.illnessId];
+          let illness = self.illness[item.illnessId],
+            dest = {
+              illnessId: item.illnessId,
+              mainLocation: item.mainLocation,
+              spreadPr: illness.spreadCorrelation,
+              firstUpComCor: illness.firstUpcomingCorrelation,
+              x1: item.x1,
+              x2: item.x2,
+              x3: item.x3,
+              x4: item.x4,
+              x5: item.x5
+            };
 
-          illness.spread = item.spread;
-          illness.firstUpCom = item.firstUpcoming;
+          dest.coefs = [];
 
+          Object.keys(dest).filter(prop => /x[0-9]{1,2}$/.test(prop)).map((prop, index) => {
+            if (index < self.amountX[dest.illnessId]) {
+              dest.coefs.push(dest[prop] || 0);
+            }
+          });
 
+          self.calculateFirstUpcoming(dest);
+          self.calculateSpread(dest);
 
+          (illness.pollutions = illness.pollutions || []).push(dest);
 
         });
       });
@@ -306,6 +326,7 @@ export class Lab4Controller {
         that.spread = 4604 + 2.7 * that.x1;
         break;
     }
+
   }
 
   calculateFirstUpcoming(that) {
@@ -322,7 +343,12 @@ export class Lab4Controller {
       case 9:
         that.firstUpcoming = 9.82 + 0.1 * that.x2 - 0.1 * that.x3 + 0.12 * that.x4;
         break;
+
+      default:
+        that.firstUpcoming = 0;
     }
+
+
   }
 
   addItem(pollution) {
