@@ -1,43 +1,55 @@
 <div class="container">
 
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>
-          <span ng-click="sortType = 'name'; sortReverse = !sortReverse">
+
+  <uib-tabset active="active">
+    <uib-tab index="$index" heading="{{disease.name}}" ng-repeat="disease in main.illness">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>
+              <span ng-click="sortType = 'name'; sortReverse = !sortReverse">
             Захворювання
             <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
-          <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
-          </span>
-        </th>
-        <th>Поширювання</th>
-        <th>Точність поширювання</th>
-        <th>
-          <span ng-click="sortType = 'firstUpCom'; sortReverse = !sortReverse">
+              <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+              </span>
+            </th>
+            <th ng-repeat="column in disease.columns">{{column}}</th>
+            <th>Поширювання</th>
+            <th>Точність поширювання</th>
+            <th>
+              <span ng-click="sortType = 'firstUpCom'; sortReverse = !sortReverse">
             Перший випадок
             <span ng-show="sortType == 'firstUpCom' && !sortReverse" class="fa fa-caret-down"></span>
-          <span ng-show="sortType == 'firstUpCom' && sortReverse" class="fa fa-caret-up"></span>
-          </span>
-        </th>
-        <th>
-          <span ng-click="sortType = 'firstUpComCor'; sortReverse = !sortReverse">
+              <span ng-show="sortType == 'firstUpCom' && sortReverse" class="fa fa-caret-up"></span>
+              </span>
+            </th>
+            <th>
+              <span ng-click="sortType = 'firstUpComCor'; sortReverse = !sortReverse">
             Точність першого випадка
             <span ng-show="sortType == 'firstUpComCor' && !sortReverse" class="fa fa-caret-down"></span>
-          <span ng-show="sortType == 'firstUpComCor' && sortReverse" class="fa fa-caret-up"></span>
-          </span>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="item in main.pollutions | orderBy:sortType:sortReverse track by $index">
-        <td>{{item.name}}</td>
-        <td>{{item.spread | number:4}}</td>
-        <td>{{item.spreadPr}}</td>
-        <td>{{item.firstUpCom | number:4}}</td>
-        <td>{{item.firstUpComCor}}</td>
-      </tr>
-    </tbody>
-  </table>
+              <span ng-show="sortType == 'firstUpComCor' && sortReverse" class="fa fa-caret-up"></span>
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in disease.pollutions | orderBy:sortType:sortReverse track by $index">
+            <td>{{item.name}}</td>
+            <td ng-repeat="x in coefs tarck by $index">{{x}}</td>
+            <td>{{item.spread | number:4}}</td>
+            <td>{{item.spreadPr}}</td>
+            <td>{{item.firstUpCom | number:4}}</td>
+            <td>{{item.firstUpComCor}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </uib-tab>
+  </uib-tabset>
+
+
+
+
+
 
 </div>
 

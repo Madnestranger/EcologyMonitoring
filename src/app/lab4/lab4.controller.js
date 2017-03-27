@@ -173,6 +173,19 @@ export class Lab4Controller {
         x1: "Динаміка скидання недостатньо очищених стічних вод, млн. м3"
       }
     ];
+
+
+    this.illness.map(t => {
+      let columns = [],
+        props = Object.keys(t);
+
+      props.filter(p => /x[0-1]{1,2}$/.test(p)).map(prop => {
+        columns.push(t[prop]);
+      });
+
+      t.columns = columns;
+    })
+
     this.amountX = {
       1: 4,
       2: 2,
