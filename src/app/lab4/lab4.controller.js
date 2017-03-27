@@ -174,7 +174,6 @@ export class Lab4Controller {
       }
     ];
 
-
     this.illness.map(t => {
       let columns = [],
         props = Object.keys(t);
@@ -184,7 +183,7 @@ export class Lab4Controller {
       });
 
       t.columns = columns;
-    })
+    });
 
     this.amountX = {
       1: 4,
@@ -234,13 +233,13 @@ export class Lab4Controller {
       .get(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}?city=${this.$stateParams.cityName}`)
       .then(response => {
         this.pollutions = response.data.map(item => {
-          let illnes = this.illness[item.illnessId],
+          let illness = this.illness[item.illnessId],
             dest = {
-              name: illnes.name,
+              name: illness.name,
               spread: item.spread,
-              spreadPr: illnes.spreadCorrelation,
+              spreadPr: illness.spreadCorrelation,
               firstUpCom: item.firstUpcoming,
-              firstUpComCor: illnes.firstUpcomingCorrelation
+              firstUpComCor: illness.firstUpcomingCorrelation
             };
           return dest;
 
@@ -301,19 +300,27 @@ export class Lab4Controller {
   }
 
   addItem(pollution) {
-    this.calculateSpread(pollution);
-    if (this.illness.find(x => x.id == pollution.illnessId).amount == 2) {
-      this.calculateFirstUpcoming(pollution);
-    } else {
-      pollution.firstUpcoming = '-';
+    let addingItem = {
+      mainLocation: this.$stateParams.cityName,
+      illnessId: pollution.illnessId
+    };
+    if (pollution.x1) {
+      addingItem.x1 = pollution.x1;
+    }
+    if (pollution.x2) {
+      addingItem.x2 = pollution.x2;
+    }
+    if (pollution.x3) {
+      addingItem.x3 = pollution.x3;
+    }
+    if (pollution.x4) {
+      addingItem.x4 = pollution.x4;
+    }
+    if (pollution.x5) {
+      addingItem.x5 = pollution.x5;
     }
     this.$http
-      .post(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}`, {
-        mainLocation: this.$stateParams.cityName,
-        illnessId: pollution.illnessId,
-        spread: pollution.spread,
-        firstUpcoming: pollution.firstUpcoming
-      })
+      .post(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}`, addingItem)
       .then(response => {
         $("#addItemModal").modal('hide');
         this.newPollution = {};
