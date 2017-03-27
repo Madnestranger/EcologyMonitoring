@@ -6,13 +6,6 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th>
-              <span ng-click="sortType = 'name'; sortReverse = !sortReverse">
-            Захворювання
-            <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
-              <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
-              </span>
-            </th>
             <th ng-repeat="column in disease.columns">{{column}}</th>
             <th>Поширювання</th>
             <th>Точність поширювання</th>
@@ -34,7 +27,6 @@
         </thead>
         <tbody>
           <tr ng-repeat="item in disease.pollutions | orderBy:sortType:sortReverse track by $index">
-            <td>{{item.name}}</td>
             <td ng-repeat="x in item.coefs track by $index">{{x}}</td>
             <td>{{main.calculateSpread(item) | number:4}}</td>
             <td>{{item.spreadPr}}</td>
