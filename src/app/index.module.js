@@ -14,7 +14,7 @@ import { Lab3Controller } from './lab3/lab3.controller';
 import { Lab4Controller } from './lab4/lab4.controller';
 import { Lab5Controller } from './lab5/lab5.controller';
 
-let API_URL = 'http://212.80.38.228:3333/';
+let API_URL = 'http://localhost:3333/';
 
 angular.module('ecologyMonitoring', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ngResource', 'ui.router', 'ui.bootstrap', 'toastr'])
   .constant('malarkey', malarkey)
