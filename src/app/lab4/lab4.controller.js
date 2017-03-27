@@ -260,16 +260,14 @@ export class Lab4Controller {
     this.$http
       .get(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}?city=${this.$stateParams.cityName}`)
       .then(response => {
-        this.pollutions = response.data.map(item => {
-          let illness = this.illness[item.illnessId],
-            dest = {
-              name: illness.name,
-              spread: item.spread,
-              spreadPr: illness.spreadCorrelation,
-              firstUpCom: item.firstUpcoming,
-              firstUpComCor: illness.firstUpcomingCorrelation
-            };
-          return dest;
+        response.data.map(item => {
+          let illness = this.illness[item.illnessId];
+
+          illness.spread = item.spread;
+          illness.firstUpCom = item.firstUpcoming;
+
+
+
 
         });
       });
