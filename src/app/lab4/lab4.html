@@ -35,10 +35,10 @@
         <tbody>
           <tr ng-repeat="item in disease.pollutions | orderBy:sortType:sortReverse track by $index">
             <td>{{item.name}}</td>
-            <td ng-repeat="x in coefs tarck by $index">{{x}}</td>
-            <td>{{item.spread | number:4}}</td>
+            <td ng-repeat="x in item.coefs track by $index">{{x}}</td>
+            <td>{{main.calculateSpread(item) | number:4}}</td>
             <td>{{item.spreadPr}}</td>
-            <td>{{item.firstUpCom | number:4}}</td>
+            <td>{{main.calculateFirstUpcoming(item) | number:4}}</td>
             <td>{{item.firstUpComCor}}</td>
           </tr>
         </tbody>

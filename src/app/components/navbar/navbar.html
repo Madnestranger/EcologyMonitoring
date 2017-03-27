@@ -15,7 +15,7 @@
       <ul class="nav navbar-nav">
         <li ng-hide="vm.$state.current.name=='variant'"><button class="btn btn-default btn-map" ng-click="vm.openMap()"><i class="glyphicon glyphicon-globe"></i></button></li>
         <li ng-hide="vm.$state.current.name=='variant'"><a ui-sref="variant">Обрати</a></li>
-        <div class="label-name">
+        <div class="label-name" ng-hide="vm.$state.current.name=='variant' || vm.$stateParams.labId != 3">
           <span>Оцінка потенційного ризику здоров’ю населення в залежності від якості ґрунту.</span>
         </div>
         <div ng-hide="vm.$state.current.name=='variant'" class="addItemBox" data-toggle="modal" data-target="#addItemModal">

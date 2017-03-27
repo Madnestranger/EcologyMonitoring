@@ -18,10 +18,9 @@ export function NavbarDirective() {
 class NavbarController {
   constructor($rootScope, $state, $stateParams) {
     'ngInject';
-
+    this.$stateParams = $stateParams;
     this.$rootScope = $rootScope;
-	this.$state = $state;
-
+    this.$state = $state;
   }
 
 
