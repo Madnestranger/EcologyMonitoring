@@ -201,11 +201,39 @@ export class Lab4Controller {
 
     this.showTable = (event) => {
 
-      var contentString = '<table class="table table-hover"><thead><tr>' +
-        '<td>Захворювання</td>' +
-        '<td>Перший випадок</td>' +
-        '<td>Точність першого випадка</td>' +
-        '</tr></thead><tbody>';
+      let header = `<ul class="nav nav-tabs">`,
+        body = '<div class="tab-content">';
+
+      $scope.illness.map((item, index) => {
+
+
+        let table = '<table class="table table-hover"><thead><tr>' +
+          //item.columns.reduce(t=>{},"")
+          '<td>Перший випадок</td>' +
+          '<td>Точність першого випадка</td>' +
+          '</tr></thead><tbody>';
+
+        header += `<li><a data-toggle="tab" href="#menu${index}">${item.name}</a></li>`;
+        body += `<div id="menu${index}" class="tab-pane fade">${table}</div>`;
+      });
+
+      header += `</ul>`;
+
+
+
+      `
+  
+  <div id="menu1" class="tab-pane fade">
+    <h3>Menu 1</h3>
+    <p>Some content in menu 1.</p>
+  </div>
+  <div id="menu2" class="tab-pane fade">
+    <h3>Menu 2</h3>
+    <p>Some content in menu 2.</p>
+  </div>
+</div>`
+
+      var contentString = '';
 
       self.pollutions.map(item => {
         var tr = `<tr><td>${item.name}</td>` +
