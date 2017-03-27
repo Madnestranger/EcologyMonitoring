@@ -219,7 +219,6 @@ export class Lab4Controller {
       header += `</ul>`;
 
 
-
       `
   
   <div id="menu1" class="tab-pane fade">
@@ -265,8 +264,6 @@ export class Lab4Controller {
 
           illness.spread = item.spread;
           illness.firstUpCom = item.firstUpcoming;
-
-
 
 
         });
@@ -328,23 +325,13 @@ export class Lab4Controller {
   addItem(pollution) {
     let addingItem = {
       mainLocation: this.$stateParams.cityName,
-      illnessId: pollution.illnessId
+      illnessId: pollution.illnessId,
+      x1: pollution.x1,
+      x2: pollution.x2,
+      x3: pollution.x3,
+      x4: pollution.x4,
+      x5: pollution.x5
     };
-    if (pollution.x1) {
-      addingItem.x1 = pollution.x1;
-    }
-    if (pollution.x2) {
-      addingItem.x2 = pollution.x2;
-    }
-    if (pollution.x3) {
-      addingItem.x3 = pollution.x3;
-    }
-    if (pollution.x4) {
-      addingItem.x4 = pollution.x4;
-    }
-    if (pollution.x5) {
-      addingItem.x5 = pollution.x5;
-    }
     this.$http
       .post(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}`, addingItem)
       .then(response => {
@@ -362,7 +349,7 @@ export class Lab4Controller {
       }, 500);
 
       this.map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 50.4501, lng: 30.5234 },
+        center: {lat: 50.4501, lng: 30.5234},
         zoom: 10
       });
 
