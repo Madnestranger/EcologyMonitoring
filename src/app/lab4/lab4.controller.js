@@ -185,6 +185,8 @@ export class Lab4Controller {
       t.columns = columns;
     });
 
+    console.log(this.illness);
+
     this.amountX = {
       1: 4,
       2: 2,
@@ -262,7 +264,7 @@ export class Lab4Controller {
       .then(response => {
         console.dir(response.data);
         response.data.map(item => {
-          let illness = self.illness[item.illnessId],
+          let illness = self.illness[item.illnessId-1],
             dest = {
               illnessId: item.illnessId,
               mainLocation: item.mainLocation,
@@ -377,7 +379,7 @@ export class Lab4Controller {
       }, 500);
 
       this.map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 50.4501, lng: 30.5234},
+        center: { lat: 50.4501, lng: 30.5234 },
         zoom: 10
       });
 
