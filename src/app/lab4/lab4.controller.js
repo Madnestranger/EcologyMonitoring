@@ -185,7 +185,7 @@ export class Lab4Controller {
       t.columns = columns;
     });
 
-    console.log(this.illness);
+  
 
     this.amountX = {
       1: 4,
@@ -209,43 +209,37 @@ export class Lab4Controller {
 
 
         let table = '<table class="table table-hover"><thead><tr>' +
-          //item.columns.reduce(t=>{},"")
-          '<td>Перший випадок</td>' +
+          item.columns.reduce((sum, cur) => {
+            sum += `<td>${cur}</td>`;
+          }, "")
+        '<td>Перший випадок</td>' +
           '<td>Точність першого випадка</td>' +
           '</tr></thead><tbody>';
+        let tbody = "";
+        item.pollutions.map(poll => {
+          let tr = '<tr>';
+          poll.coefs.map(co => {
+            tr += `<td>${co}</td>`
+          });
+          tr += `<td>${poll.spread}</td>
+            <td>${poll.spreadPr}</td>
+            <td>${poll.firstUpcoming}</td>
+            <td>${poll.firstUpComCor}</td></tr>`
+
+          tbody += tr;
+        });
+
+        table += tbody + "</tbody></table>";
+
 
         header += `<li><a data-toggle="tab" href="#menu${index}">${item.name}</a></li>`;
         body += `<div id="menu${index}" class="tab-pane fade">${table}</div>`;
       });
 
       header += `</ul>`;
+      body+='</div>';
 
-
-      `
-  
-  <div id="menu1" class="tab-pane fade">
-    <h3>Menu 1</h3>
-    <p>Some content in menu 1.</p>
-  </div>
-  <div id="menu2" class="tab-pane fade">
-    <h3>Menu 2</h3>
-    <p>Some content in menu 2.</p>
-  </div>
-</div>`
-
-      var contentString = '';
-
-      self.pollutions.map(item => {
-        var tr = `<tr><td>${item.name}</td>` +
-          `<td>${item.firstUpCom.toFixed ? item.firstUpCom.toFixed(4) : item.firstUpCom}</td>` +
-          `<td>${item.firstUpComCor}</td>` +
-          '</tr>';
-        contentString += tr;
-      });
-
-      contentString += '</tbody></table>';
-
-      self.infoWindow.setContent(contentString);
+      self.infoWindow.setContent(header + body);
       self.infoWindow.setPosition(event.latLng);
 
       self.infoWindow.open(self.map);
@@ -262,9 +256,8 @@ export class Lab4Controller {
     self.$http
       .get(`${self.API_URL}${self.requestsForLab[self.$stateParams.labId].pollution}?city=${self.$stateParams.cityName}`)
       .then(response => {
-        console.dir(response.data);
         response.data.map(item => {
-          let illness = self.illness[item.illnessId-1],
+          let illness = self.illness[item.illnessId - 1],
             dest = {
               illnessId: item.illnessId,
               mainLocation: item.mainLocation,
