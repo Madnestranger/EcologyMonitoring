@@ -185,7 +185,7 @@ export class Lab4Controller {
       t.columns = columns;
     });
 
-  
+
 
     this.amountX = {
       1: 4,
@@ -205,7 +205,7 @@ export class Lab4Controller {
       let header = `<ul class="nav nav-tabs">`,
         body = '<div class="tab-content">';
 
-      $scope.illness.map((item, index) => {
+      this.illness.map((item, index) => {
 
 
         let table = '<table class="table table-hover"><thead><tr>' +
