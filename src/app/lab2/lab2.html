@@ -40,8 +40,8 @@
               <td>{{item.city}}</td>
               <td>{{item.averageConcentration}}</td>
               <td>{{item.gdk}}</td>
-              <td>{{item.prob | number: 4}}</td>
-              <td ng-style="{'background-color':'rgba({{main.getRiskCellColor(item.risk)}},0,0.5)'}">{{item.risk | number: 4}}</td>
+              <td>{{mode.drink.prob(item) | number: 4}}</td>
+              <td ng-style="{'background-color':'rgba({{main.getRiskCellColor(item.risk)}},0,0.5)'}">{{mode.drink.risk(item) | number: 4}}</td>
               <td>{{item.characteristic}}</td>
             </tr>
           </tbody>
