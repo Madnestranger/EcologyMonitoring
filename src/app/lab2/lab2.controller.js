@@ -97,107 +97,108 @@ export class Lab2Controller {
     let AT = EF * ED;//час усереднення
     let K3 = 100.0;
     this.modes = [
-    {
-      name: "Оцінка потенційного ризику за органолептичними показниками якості питної води",
-      id: 1,
-      drink: {
-        prob: item => {
-          console.log(item);
-          let c = item.averageConcentration || 1,
-            dest = -2 + 3.32 * Math.log10(c / item.gdk);
+      {
+        name: "Оцінка потенційного ризику за органолептичними показниками якості питної води",
+        id: 1,
+        drink: {
+          prob: item => {
+            let c = item.averageConcentration || 1,
+              dest = -2 + 3.32 * Math.log10(c / item.gdk);
 
-          return dest;
-        },
-        risk: function (item) {
-          let dest,
-            prob = this.prob(item);
+            return dest;
+          },
+          risk: function (item) {
+            let dest,
+              risk = 0,
+              prob = this.prob(item);
 
-          //let prob = this.prob()
+            //let prob = this.prob()
 
-          for (let j = 0; j < organProbs.length; j++) {
-
-            if (item.prob < organProbs[j]) {
-              dest = "< " + organRisks[j];
-              break;
-            }
-            else {
-              if (prob == organProbs[j]) {
-                dest = organRisks[j];
+            for (let j = 0; j < organProbs.length; j++) {
+              risk = organRisks[j];
+              if (item.prob < organProbs[j]) {
+                dest = "< " + organRisks[j];
                 break;
               }
               else {
-                if (organProbs[j] < prob && prob < organProbs[j + 1]) {
-                  dest = organRisks[j] + " - " + organRisks[j + 1];
+                if (prob == organProbs[j]) {
+                  dest = organRisks[j];
                   break;
+                }
+                else {
+                  if (organProbs[j] < prob && prob < organProbs[j + 1]) {
+                    dest = organRisks[j] + " - " + organRisks[j + 1];
+                    break;
+                  }
                 }
               }
             }
+            item.risk = risk;
+            return dest;
           }
-
-          return dest;
+        },
+        recreation: {
+          prob: item => {
+            let dest = 0;
+            return dest;
+          },
+          risk: item => {
+            let dest = 0;
+            return dest;
+          }
         }
       },
-      recreation: {
-        prob: item => {
-          let dest = 0;
-          return dest;
+      {
+        name: "Оцінка потенційного ризику епідеміологічної небезпеки питної води",
+        id: 2,
+        drink: {
+          prob: item => {
+            let dest = 0;
+            return dest;
+          },
+          risk: item => {
+            let dest = 0;
+            return dest;
+          }
         },
-        risk: item => {
-          let dest = 0;
-          return dest;
-        }
-      }
-    },
-    {
-      name: "Оцінка потенційного ризику епідеміологічної небезпеки питної води",
-      id: 2,
-      drink: {
-        prob: item => {
-          let dest = 0;
-          return dest;
-        },
-        risk: item => {
-          let dest = 0;
-          return dest;
-        }
-      },
-      recreation: {
-        prob: item => {
-          let dest = 0;
-          return dest;
-        },
-        risk: item => {
-          let dest = 0;
-          return dest;
-        }
-      }
-    },
-    {
-      name: "Оцінка потенційного ризику токсикологічної небезпеки питної води",
-      id: 3,
-      drink: {
-        prob: item => {
-          let dest = Math.round(-2.0 + 3.32 * Math.log10(item.averageConcentration) / item.gdk);
-          return dest;
-        },
-        risk: item => {
-          let LADD = item.averageConcentration * IR * EF * AT * ED / BW;
-          let cLim = item.gdk * 10;
-          let dest = 1 - Math.exp(Math.log(0.84) * LADD / cLim);
-          return dest;
+        recreation: {
+          prob: item => {
+            let dest = 0;
+            return dest;
+          },
+          risk: item => {
+            let dest = 0;
+            return dest;
+          }
         }
       },
-      recreation: {
-        prob: item => {
-          let dest = 0;
-          return dest;
+      {
+        name: "Оцінка потенційного ризику токсикологічної небезпеки питної води",
+        id: 3,
+        drink: {
+          prob: item => {
+            let dest = Math.round(-2.0 + 3.32 * Math.log10(item.averageConcentration) / item.gdk);
+            return dest;
+          },
+          risk: item => {
+            let LADD = item.averageConcentration * IR * EF * AT * ED / BW;
+            let cLim = item.gdk * 10;
+            let dest = 1 - Math.exp(Math.log(0.84) * LADD / cLim);
+            item.risk = dest;
+            return dest;
+          }
         },
-        risk: item => {
-          let dest = 0;
-          return dest;
+        recreation: {
+          prob: item => {
+            let dest = 0;
+            return dest;
+          },
+          risk: item => {
+            let dest = 0;
+            return dest;
+          }
         }
-      }
-    }];
+      }];
 
 
     this.showTable = (event) => {
