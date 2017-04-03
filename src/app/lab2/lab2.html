@@ -41,7 +41,7 @@
               <td>{{item.averageConcentration}}</td>
               <td>{{item.gdk}}</td>
               <td>{{mode.drink.prob(item) | number: 4}}</td>
-              <td ng-style="{'background-color':'rgba({{main.getRiskCellColor(item.risk)}},0,0.5)'}">{{mode.drink.risk(item) | number: 4}}</td>
+              <td ng-style="{'background-color':'rgba({{main.getRiskCellColor(item.risk)}},0,0.5)'}">{{mode.drink.risk(item)}}</td>
               <td>{{item.characteristic}}</td>
             </tr>
           </tbody>
