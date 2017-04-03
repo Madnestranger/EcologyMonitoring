@@ -212,7 +212,7 @@ export class MainController {
 
       this.map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 50.4501, lng: 30.5234 },
-        zoom: 5
+        zoom: 10
       });
 
       this.polygons.get(`${this.$stateParams.cityId}`).then(response => {
