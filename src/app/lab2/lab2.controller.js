@@ -6,7 +6,30 @@ export class Lab2Controller {
       labId = $stateParams.labId;
 
     var OSF = 0.84;
-    
+
+    let organRisks = [0.001, 0.006, 0.023, 0.029, 0.036, 0.045, 0.055, 0.067, 0.081, 0.097, 0.115,
+      0.136, 0.157, 0.184, 0.212, 0.242, 0.274, 0.309, 0.345, 0.382, 0.421, 0.460,
+      0.500, 0.540, 0.579, 0.618, 0.655, 0.692, 0.726, 0.758, 0.788, 0.816, 0.841,
+      0.864, 0.885, 0.903, 0.919, 0.933, 0.945, 0.955, 0.964, 0.971, 0.977, 0.994,
+      0.999],
+      organProbs = [];
+
+    for (let i = -3.0; i < -2.0; i += 0.5) {
+      organProbs.push(i);
+    }
+    for (let i = -2.0; i < 2.0; i += 0.1) {
+      organProbs.push(Math.round(i, 1));
+    }
+    for (let i = 2.0; i <= 3.0; i += 0.5) {
+      organProbs.push(i);
+    }
+
+
+
+
+
+
+
 
     $scope.$on('open.map', () => {
       this.showMap = true;
@@ -85,8 +108,32 @@ export class Lab2Controller {
 
           return dest;
         },
-        risk: item => {
-          let dest = 0;
+        risk: function (item) {
+          let dest,
+            prob = this.prob(item);
+
+          //let prob = this.prob()
+
+          for (let j = 0; j < organProbs.length; j++) {
+
+            if (item.prob < organProbs[j]) {
+              dest = "< " + organRisks[j];
+              break;
+            }
+            else {
+              if (prob == organProbs[j]) {
+                dest = organRisks[j];
+                break;
+              }
+              else {
+                if (organProbs[j] < prob && prob < organProbs[j + 1]) {
+                  dest = organRisks[j] + " - " + organRisks[j + 1];
+                  break;
+                }
+              }
+            }
+          }
+
           return dest;
         }
       },
@@ -150,6 +197,8 @@ export class Lab2Controller {
       }
     }];
 
+
+    this.modes[0].drink.risk({});
 
 
     this.showTable = (event) => {
