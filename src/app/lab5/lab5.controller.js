@@ -143,7 +143,7 @@ export class Lab5Controller {
       Cc = item.averageConcentration;
       Cd = item.gdk;
       Ai = 1 / item.gdk;
-      this.airSum += V * T * Cc * Cd * Ai * n * h;
+      this.waterSum += V * T * Cc * Cd * Ai * n * h;
     });
   }
 
@@ -156,11 +156,11 @@ export class Lab5Controller {
     let Ai = 0;
     let n = 3200;
     let h = 0;
-    angular.forEach(this.pollutionsAir, item => {
+    angular.forEach(this.pollutionsGround, item => {
       Cc = item.averageConcentration;
       Cd = item.gdk;
       Ai = 1 / item.gdk;
-      this.airSum += V * T * Cc * Cd * Ai * n * h;
+      this.groundSum += V * T * Cc * Cd * Ai * n * h;
     });
   }
 
