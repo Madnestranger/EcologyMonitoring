@@ -12,6 +12,12 @@
   }
 }
 
+acme-navbar {
+  nav {
+    background-color: #1c1b29;
+  }
+}
+
 .navbar-header {
   &:hover {
     color: #fff !important;
@@ -71,6 +77,41 @@
 }
 
 .substContainer {
+
+  .box {
+    display: flex;
+    font-size: 18px;
+    align-items: center;
+    background-color: darken(#fff, 5%);
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    .abs {
+      position: absolute;
+      right: 100px;
+      top: 30%;
+      text-decoration: blink;
+      color: red;
+    }
+    .title {
+      color: rgba(0,0,0,.7);
+      flex-basis: 50%;
+    }
+    .value {
+      color: black;
+      font-size: 20px;
+      transition: all 0.3s ease;
+      &:hover {
+        font-size: 22px;
+      }
+    }
+    &:hover {
+      background-color: darken(#fff, 10%);
+    }
+  }
 
   .subst-header {
     display: flex;

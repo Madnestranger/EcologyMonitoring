@@ -11,42 +11,6 @@ export class Lab5Controller {
     });
 
     this.polygons = polygons;
-    this.constantsProb = {
-      1: {
-        a: -9.15,
-        b: 11.66
-      },
-      2: {
-        a: -5.51,
-        b: 7.49
-      },
-      3: {
-        a: -2.35,
-        b: 3.73
-      },
-      4: {
-        a: -1.41,
-        b: 2.33
-      }
-    };
-    this.constantsRisk = {
-      1: {
-        k: 7.5,
-        b: 2.35
-      },
-      2: {
-        k: 6,
-        b: 1.28
-      },
-      3: {
-        k: 4.5,
-        b: 1
-      },
-      4: {
-        k: 3,
-        b: 0.87
-      }
-    };
     this.requestsForLab = {
       1: {
         substance: 'substances',
@@ -75,93 +39,15 @@ export class Lab5Controller {
     this.newPollution = {};
     this.currentTab = 'item';
     this.API_URL = API_URL;
-    this.getData();
+    this.getDataAir();
+    this.getDataWater();
+    this.getDataGround();
     this.$timeout = $timeout;
-    this.illness = [
-      {
-        name: 'Гострий інфаркт міокарда',
-        id: 1,
-        amount: 1,
-        spreadCorrelation: 0.91,
-        firstUpcomingCorrelation: '-'
-      },
-      {
-        name: 'Мозковий інсульт',
-        id: 2,
-        amount: 1,
-        spreadCorrelation: 0.6,
-        firstUpcomingCorrelation: '-'
-      },
-      {
-        name: 'Хронічні цереброласкулярна патологія',
-        id: 3,
-        amount: 1,
-        spreadCorrelation: 0.63,
-        firstUpcomingCorrelation: '-'
-      },
-      {
-        name: 'Доброякісні новоутворення',
-        id: 4,
-        amount: 1,
-        spreadCorrelation: 0.81,
-        firstUpcomingCorrelation: '-'
-      },
-      {
-        name: 'Злоякісні новоутворення',
-        id: 5,
-        amount: 2,
-        spreadCorrelation: '-',
-        firstUpcomingCorrelation: '-'
-      },
-      {
-        name: 'Ендокринна захворюваність',
-        id: 6,
-        amount: 1,
-        spreadCorrelation: 0.6,
-        firstUpcomingCorrelation: '-'
-      },
-      {
-        name: 'Вузловий зоб',
-        id: 7,
-        amount: 2,
-        spreadCorrelation: 0.63,
-        firstUpcomingCorrelation: 0.8
-      },
-      {
-        name: 'Тиреотоксикоз',
-        id: 8,
-        amount: 2,
-        spreadCorrelation: 0.42,
-        firstUpcomingCorrelation: 0.6
-      },
-      {
-        name: 'Гіпотиреоз',
-        id: 9,
-        amount: 2,
-        spreadCorrelation: 0.86,
-        firstUpcomingCorrelation: 0.95
-      },
-      {
-        name: 'Цукровий діабет',
-        id: 10,
-        amount: 1,
-        spreadCorrelation: 0.53,
-        firstUpcomingCorrelation: '-'
-      }
-    ];
-    this.amountX = {
-      1: 4,
-      2: 2,
-      3: 2,
-      4: 5,
-      5: 1,
-      6: 1,
-      7: 2,
-      8: 2,
-      9: 4,
-      10: 1
-    };
-
+    $scope.isNavCollapsed = true;
+    $scope.isCollapsedAir = true;
+    $scope.isCollapsedWater = true;
+    $scope.isCollapsedGround = true;
+    $scope.isCollapsedHorizontal = false;
     this.showTable = (event) => {
 
       var contentString = '<table class="table table-hover"><thead><tr>' +
@@ -191,68 +77,91 @@ export class Lab5Controller {
     };
   }
 
+  veryMuch() {
+    this.visibleMuch = true;
+    this.$timeout(() => {
+      this.visibleMuch = false;
+    }, 2000);
+  }
+
   chooseInputs(id) {
     this.inputAmounts = this.amountX[id];
   }
 
-  getData() {
+  getDataAir() {
     this.$http
-      .get(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}?city=${this.$stateParams.cityName}`)
+      .get(`${this.API_URL}${this.requestsForLab[1].pollution}?city=${this.$stateParams.cityName}`)
       .then(response => {
-        this.pollutions = response.data;
+        this.pollutionsAir = response.data;
+        this.calculateAir();
       });
   }
 
-  calculateSpread(that) {
-    switch (that.illnessId) {
-      case 1:
-        that.spread = 137.6 + 0.74 * that.x1 + 0.68 * that.x2 - 1.36 * that.x3 + 1.04 * that.x4;
-        break;
-      case 2:
-        that.spread = 592 + 1.38 * that.x1 - 0.79 * that.x2;
-        break;
-      case 3:
-        that.spread = 708 + 1.8 * that.x1 - 0.85 * that.x2;
-        break;
-      case 4:
-        that.spread = 883 + 1.87 * that.x1 + 2.4 * that.x2 - 3.1 * that.x3 + 0.66 * that.x4 + 1.35 * that.x5;
-        break;
-      case 5:
-        that.spread = 3972 - 7.04 * that.x1;
-        break;
-      case 6:
-        that.spread = 565 + 1.13 * that.x1;
-        break;
-      case 7:
-        that.spread = 239 + 0.68 * that.x1;
-        break;
-      case 8:
-        that.spread = 80.2 + 0.17 * that.x1;
-        break;
-      case 9:
-        that.spread = 176 + 0.8 * that.x1;
-        break;
-      case 10:
-        that.spread = 4604 + 2.7 * that.x1;
-        break;
-    }
+  getDataWater() {
+    this.$http
+      .get(`${this.API_URL}${this.requestsForLab[2].pollution}?city=${this.$stateParams.cityName}`)
+      .then(response => {
+        this.pollutionsWater = response.data;
+        this.calculateWater();
+      });
   }
 
-  calculateFirstUpcoming(that) {
-    switch (that.illnessId) {
-      case 5:
-        that.firstUpcoming = 692 - 1.17 * that.x1;
-        break;
-      case 7:
-        that.firstUpcoming = 31.4 + 0.18 * that.x2;
-        break;
-      case 8:
-        that.firstUpcoming = 5.1 + 0.22 * that.x2;
-        break;
-      case 9:
-        that.firstUpcoming = 9.82 + 0.1 * that.x2 - 0.1 * that.x3 + 0.12 * that.x4;
-        break;
-    }
+  getDataGround() {
+    this.$http
+      .get(`${this.API_URL}${this.requestsForLab[3].pollution}?city=${this.$stateParams.cityName}`)
+      .then(response => {
+        this.pollutionsGround = response.data;
+        this.calculateGround();
+        console.log(this.pollutionsGround);
+      });
+  }
+
+  calculateAir() {
+    this.airSum = 0;
+    let pI = 3200;
+    let mI = 10;
+    let aI = 0;
+    let kT = 1.8 * 1.25;
+    let kZ = 0;
+    angular.forEach(this.pollutionsAir, item => {
+      aI = 1 / item.gdk;
+      kZ = item.averageConcentration / item.gdk;
+      this.airSum += pI * mI * aI * kT * kZ;
+    });
+  }
+
+  calculateWater() {
+    this.waterSum = 0;
+    let V = 50;
+    let T = 120;
+    let Cc = 0;
+    let Cd = 1.8 * 1.25;
+    let Ai = 0;
+    let n = 3200;
+    let h = 0;
+    angular.forEach(this.pollutionsWater, item => {
+      Cc = item.averageConcentration;
+      Cd = item.gdk;
+      Ai = 1 / item.gdk;
+      this.airSum += V * T * Cc * Cd * Ai * n * h;
+    });
+  }
+
+  calculateGround() {
+    this.groundSum = 0;
+    let V = 50;
+    let T = 120;
+    let Cc = 0;
+    let Cd = 1.8 * 1.25;
+    let Ai = 0;
+    let n = 3200;
+    let h = 0;
+    angular.forEach(this.pollutionsAir, item => {
+      Cc = item.averageConcentration;
+      Cd = item.gdk;
+      Ai = 1 / item.gdk;
+      this.airSum += V * T * Cc * Cd * Ai * n * h;
+    });
   }
 
   addItem(pollution) {
@@ -278,18 +187,14 @@ export class Lab5Controller {
 
   initMap() {
     if (!this.map) {
-
       this.$timeout(() => {
         google.maps.event.trigger(this.map, 'resize');
       }, 500);
-
       this.map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 50.4501, lng: 30.5234},
         zoom: 10
       });
-
       this.polygons.get(`${this.$stateParams.cityId}`).then(response => {
-
         var town = new google.maps.Polygon({
           paths: response,
           strokeColor: '#5AADBB',
@@ -299,13 +204,10 @@ export class Lab5Controller {
           fillOpacity: 0.35
         });
         town.setMap(this.map);
-
         town.addListener('click', this.showTable.bind(this));
-
         this.infoWindow = new google.maps.InfoWindow;
-
-
       });
     }
   }
+
 }

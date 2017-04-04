@@ -1,20 +1,63 @@
 <div class="container">
   <div class="substContainer">
-    <div class="subst-header">
-      <div class="header-item">Захворювання</div>
-      <div class="header-item">Поширювання</div>
-      <div class="header-item">Точність поширювання</div>
-      <div class="header-item">Перший випадок</div>
-      <div class="header-item">Точність першого випадка</div>
+    <div class="box" ng-click="isCollapsedAir = !isCollapsedAir">
+      <div class="title">Збитки від забруднення атмосферного повітря, гривень</div>
+      <div class="value">{{main.airSum}} грн.</div>
     </div>
-    <div class="substance" ng-repeat="item in main.pollutions track by $index">
-      <div class="table-container">
-        <div class="table-item">{{main.illness[item.illnessId].name}}</div>
-        <div class="table-item">{{item.spread}}</div>
-        <div class="table-item">{{main.illness[item.illnessId].spreadCorrelation}}</div>
-        <div class="table-item">{{item.firstUpcoming}}</div>
-        <div class="table-item">{{main.illness[item.illnessId].firstUpcomingCorrelation}}</div>
-      </div>
+    <div class="content" uib-collapse="isCollapsedAir">
+      <table class="table table-hover table-condensed">
+        <tr>
+          <th>Назва речовини</th>
+          <th>ГДК</th>
+          <th>Середня концентрація</th>
+        </tr>
+        <tr ng-repeat="item in main.pollutionsAir">
+          <td>{{item.name}}</td>
+          <td>{{item.gdk}}</td>
+          <td>{{item.averageConcentration}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="box" ng-click="isCollapsedWater = !isCollapsedWater">
+      <div class="title">Збитки від забруднення поверхневих і підземних вод, гривень</div>
+      <div class="value">{{main.waterSum}} грн.</div>
+    </div>
+    <div class="content" uib-collapse="isCollapsedWater">
+      <table class="table table-hover table-condensed">
+        <tr>
+          <th>Назва речовини</th>
+          <th>ГДК</th>
+          <th>Середня концентрація</th>
+        </tr>
+        <tr ng-repeat="item in main.pollutionsWater">
+          <td>{{item.name}}</td>
+          <td>{{item.gdk}}</td>
+          <td>{{item.averageConcentration}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="box" ng-click="isCollapsedGround = !isCollapsedGround">
+      <div class="title">Збитки від забруднення земель, гривень</div>
+      <div class="value">{{main.groundSum}} грн.</div>
+    </div>
+    <div class="content" uib-collapse="isCollapsedGround">
+      <table class="table table-hover table-condensed">
+        <tr>
+          <th>Назва речовини</th>
+          <th>ГДК</th>
+          <th>Середня концентрація</th>
+        </tr>
+        <tr ng-repeat="item in main.pollutionsGround">
+          <td>{{item.name}}</td>
+          <td>{{item.gdk}}</td>
+          <td>{{item.averageConcentration}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="box" ng-click="main.veryMuch()">
+      <div class="title">Загальний збиток</div>
+      <div class="value">{{main.airSum + main.waterSum + main.groundSum}} грн.</div>
+      <div class="abs" ng-if="main.visibleMuch">VERY MUCH!</div>
     </div>
   </div>
 </div>
