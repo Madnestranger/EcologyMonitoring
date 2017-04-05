@@ -2,8 +2,162 @@ export class Lab5Controller {
   constructor($http, API_URL, $rootScope, polygons, $scope, $stateParams, $state, $timeout) {
     'ngInject';
 
+    // must be initilized
+    const n = 3200;
+
     var self = this,
       labId = $stateParams.labId;
+
+    self.typeHeaders = [{
+      id: 1,
+      name: "Збитки від наднормативного скидання забруднених стоків, викликаних НС"
+    }, {
+      id: 2,
+      name: "Збитки від аварійних залпових скидань забруднених стоків"
+    }, {
+      id: 3,
+      name: "Збитки від скидання сировини та речовин у чистому вигляді"
+    }, {
+      id: 4,
+      name: "Забруднення водного об'єкта сміттям"
+    }, {
+      id: 5,
+      name: "Забруднення підземних вод нафтопродуктами"
+    }];
+
+
+    self.types = {
+      1: {
+        v: 200,
+        t: 200,
+        cc: 200,
+        cd: 200,
+        h: 10,
+        name: "Збитки від наднормативного скидання забруднених стоків, викликаних НС",
+        fields: [{
+          description: "локацiя",
+          name: "mainLocation"
+        }, {
+          description: "витрати зворотних вод, куб. метрів/годину",
+          name: "v"
+        }, {
+          description: "тривалість наднормативного скидання, годин",
+          name: "t"
+        }, {
+          description: "середня фактична концентрація забруднюючих речовин у зворотних водах, грам/куб. метр",
+          name: "сс"
+        }, {
+          description: "дозволена для скидання концентрація забруднюючих речовин",
+          name: "cd"
+        }, {
+          description: "коефіцієнт, що враховує категорію водного об'єкта",
+          name: "h"
+        }],
+        useSubstance: true,
+        url: "pollutionsWater/excessDischarge",
+        sum: function (pollutions) {
+          let sum = pollutions.reduce((prev, curr) => prev + 0.003 * 1 / curr.gdk * n, 0);
+          return this.v * this.t * this.cc * this.cd * sum * this.h * Math.pow(10, -3);
+        }
+      },
+      2: {
+        v: 200,
+        t: 200,
+        cc: 200,
+        cd: 200,
+        h: 10,
+        name: "Збитки від аварійних залпових скидань забруднених стоків",
+        fields: [{
+          description: "локацiя",
+          name: "mainLocation"
+        }, {
+          description: "витрати зворотних вод, куб. метрів/годину",
+          name: "v"
+        }, {
+          description: "тривалість наднормативного скидання, годин",
+          name: "t"
+        }, {
+          description: "середня фактична концентрація забруднюючих речовин у зворотних водах, грам/куб. метр",
+          name: "сс"
+        },
+        {
+          description: "коефіцієнт, що враховує категорію водного об'єкта",
+          name: "h"
+        }],
+        useSubstance: true,
+        url: "pollutionsWater/emergencyDischarge",
+        sum: function (pollutions) {
+          let sum = pollutions.reduce((prev, curr) => prev + 0.003 * 1 / curr.gdk * n, 0);
+          return this.v * this.t * this.cc * sum * this.h * Math.pow(10, -3);
+        }
+
+      },
+      3: {
+        m: 200,
+        ai: 200,
+        h: 300,
+        name: "Збитки від скидання сировини та речовин у чистому вигляді",
+        fields: [{
+          description: "локацiя",
+          name: "mainLocation"
+        }, {
+          description: "маса скинутої забруднюючої сировини, кілограмів",
+          name: "m"
+        },
+        {
+          description: "коефіцієнт, що враховує категорію водного об'єкта",
+          name: "h"
+        }],
+        useSubstance: true,
+        url: "pollutionsWater/pureDischarge",
+        sum: function () { return this.m * 0.003 * this.ai * n * this.h; }
+
+      },
+      4: {
+        name: "Забруднення водного об'єкта сміттям",
+        fields: [{
+          description: "локацiя",
+          name: "mainLocation"
+        }, {
+          description: "маса скинутої забруднюючої сировини, кілограмів",
+          name: "m"
+        },
+        {
+          description: "коефіцієнт, що враховує категорію водного об'єкта",
+          name: "h"
+        }],
+        useSubstance: true,
+        sum: () => 0
+      },
+      5: {
+        m: 200,
+        k: 20,
+        ai: 20,
+        t: 1,
+        name: "Забруднення підземних вод нафтопродуктами",
+        fields: [{
+          description: "локацiя",
+          name: "mainLocation"
+        }, {
+          description: "питома величина збитків, завданих навколишньому природному середовищу, в НМД",
+          name: "y"
+        }, {
+          description: "об'єм забруднених підземних вод, куб. метрів",
+          name: "v"
+        },
+        {
+          description: "коефіцієнт, який враховує природну захищеність підземних вод",
+          name: "l"
+        }],
+        url: "pollutionsWater/oil",
+        sum: function () {
+          return this.m * this.k * 0.17 * this.ai * this.t * 0.1;
+        }
+
+      }
+    }
+
+
 
     $scope.$on('open.map', () => {
       this.showMap = true;
@@ -31,6 +185,10 @@ export class Lab5Controller {
         pollution: 'illnessesLab4'
       }
     };
+
+
+
+
     this.$stateParams = $stateParams;
     this.$http = $http;
     this.$state = $state;
@@ -39,6 +197,8 @@ export class Lab5Controller {
     this.newPollution = {};
     this.currentTab = 'item';
     this.API_URL = API_URL;
+
+
     this.getDataAir();
     this.getDataWater();
     this.getDataGround();
@@ -48,6 +208,7 @@ export class Lab5Controller {
     $scope.isCollapsedWater = true;
     $scope.isCollapsedGround = true;
     $scope.isCollapsedHorizontal = false;
+    this.getAllSubstances();
     this.showTable = (event) => {
 
       var contentString = '<table class="table table-hover"><thead><tr>' +
@@ -75,6 +236,16 @@ export class Lab5Controller {
 
       self.infoWindow.open(self.map);
     };
+
+  }
+
+
+  getAllSubstances() {
+    this.$http
+      .get(`${this.API_URL}substances`)
+      .then(response => {
+        this.substances = response.data;
+      });
   }
 
   veryMuch() {
@@ -112,7 +283,7 @@ export class Lab5Controller {
       .then(response => {
         this.pollutionsGround = response.data;
         this.calculateGround();
-        console.log(this.pollutionsGround);
+        //console.log(this.pollutionsGround);
       });
   }
 
@@ -131,20 +302,35 @@ export class Lab5Controller {
   }
 
   calculateWater() {
-    this.waterSum = 0;
-    let V = 50;
-    let T = 120;
-    let Cc = 0;
-    let Cd = 1.8 * 1.25;
-    let Ai = 0;
-    let n = 3200;
-    let h = 0;
-    angular.forEach(this.pollutionsWater, item => {
-      Cc = item.averageConcentration;
-      Cd = item.gdk;
-      Ai = 1 / item.gdk;
-      this.waterSum += V * T * Cc * Cd * Ai * n * h;
-    });
+    let sum = 0;
+
+    for (let key in this.types) {
+      if (this.types.hasOwnProperty(key)) {
+        debugger;
+        sum += this.types[key].sum(this.pollutionsWater);
+
+      }
+    }
+
+    this.waterSum = sum;
+
+    // this.waterSum = 0;
+    // let V = 50;
+    // let T = 120;
+    // let Cc = 0;
+    // let Cd = 1.8 * 1.25;
+    // let Ai = 0;
+    // let n = 3200;
+    // let h = 0;
+    // angular.forEach(this.pollutionsWater, item => {
+    //   Cc = item.averageConcentration;
+    //   Cd = item.gdk;
+    //   Ai = 1 / item.gdk;
+
+    //   this.waterSum += V * T * Cc * Cd * Ai * n * h;
+
+    // });
+
   }
 
   calculateGround() {
@@ -164,24 +350,13 @@ export class Lab5Controller {
     });
   }
 
+
+
   addItem(pollution) {
-    this.calculateSpread(pollution);
-    if (this.illness.find(x => x.id == pollution.illnessId).amount == 2) {
-      this.calculateFirstUpcoming(pollution);
-    } else {
-      pollution.firstUpcoming = '-';
-    }
     this.$http
-      .post(`${this.API_URL}${this.requestsForLab[this.$stateParams.labId].pollution}`, {
-        mainLocation: this.$stateParams.cityName,
-        illnessId: pollution.illnessId,
-        spread: pollution.spread,
-        firstUpcoming: pollution.firstUpcoming
-      })
-      .then(response => {
-        $("#addItemModal").modal('hide');
+      .post(`${this.API_URL}${this.types[pollution.typeId].url}`, pollution)
+      .then(() => {
         this.newPollution = {};
-        this.pollutions.push(response.data);
       });
   }
 
@@ -191,7 +366,7 @@ export class Lab5Controller {
         google.maps.event.trigger(this.map, 'resize');
       }, 500);
       this.map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 50.4501, lng: 30.5234},
+        center: { lat: 50.4501, lng: 30.5234 },
         zoom: 10
       });
       this.polygons.get(`${this.$stateParams.cityId}`).then(response => {

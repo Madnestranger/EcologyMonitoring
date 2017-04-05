@@ -1,8 +1,8 @@
 <div class="container">
   <div class="substContainer">
     <div class="box" ng-click="isCollapsedAir = !isCollapsedAir">
-      <div class="title">Збитки від забруднення атмосферного повітря, гривень</div>
-      <div class="value">{{main.airSum}} грн.</div>
+      <div class="title">Збитки від забруднення атмосферного повітря</div>
+      <div class="value">{{main.airSum | currency:""}} грн.</div>
     </div>
     <div class="content" uib-collapse="isCollapsedAir">
       <table class="table table-hover table-condensed">
@@ -20,7 +20,7 @@
     </div>
     <div class="box" ng-click="isCollapsedWater = !isCollapsedWater">
       <div class="title">Збитки від забруднення поверхневих і підземних вод, гривень</div>
-      <div class="value">{{main.waterSum}} грн.</div>
+      <div class="value">{{main.waterSum | currency:""}} грн.</div>
     </div>
     <div class="content" uib-collapse="isCollapsedWater">
       <table class="table table-hover table-condensed">
@@ -38,7 +38,7 @@
     </div>
     <div class="box" ng-click="isCollapsedGround = !isCollapsedGround">
       <div class="title">Збитки від забруднення земель, гривень</div>
-      <div class="value">{{main.groundSum}} грн.</div>
+      <div class="value">{{main.groundSum | currency:""}} грн.</div>
     </div>
     <div class="content" uib-collapse="isCollapsedGround">
       <table class="table table-hover table-condensed">
@@ -62,8 +62,7 @@
   </div>
 </div>
 
-<div ng-show="main.showMap" class="map-container"
-     ng-click="main.showMap = !main.showMap">
+<div ng-show="main.showMap" class="map-container" ng-click="main.showMap = !main.showMap">
   <div class="btn-close">
     &#10006;
   </div>
@@ -85,24 +84,26 @@
       </div>
       <div class="modal-body">
         <div class="tab-content">
-          <form action="" name="addItemForm" id="addItemForm" role="tabpanel"
-                class="tab-pane active" onsubmit="event.preventDefault();">
-            <select name="" id="" class="form-control" ng-model="main.newPollution.illnessId"
-                    ng-options="item.id as item.name for item in main.illness track by item.id"
-                    ng-change="main.chooseInputs(main.newPollution.illnessId)"
-                    required="true"></select>
-            <input type="text" placeholder="X1:" ng-model="main.newPollution.x1"
-                   required="true" class="form-control">
-            <input type="text" placeholder="X2:" ng-model="main.newPollution.x2"
-                   required="true" class="form-control" ng-if="main.inputAmounts >= 2">
-            <input type="text" placeholder="X3:" ng-model="main.newPollution.x3"
-                   required="true" class="form-control" ng-if="main.inputAmounts >= 3">
-            <input type="text" placeholder="X4:" ng-model="main.newPollution.x4"
-                   required="true" class="form-control" ng-if="main.inputAmounts >= 4">
-            <input type="text" placeholder="X5:" ng-model="main.newPollution.x5"
-                   required="true" class="form-control" ng-if="main.inputAmounts >= 5">
+          <form name="addItemForm" id="addItemForm" role="tabpanel" class="tab-pane active"
+            onsubmit="event.preventDefault();">
+
+            <select class="form-control" ng-model="main.newPollution.typeId"
+              ng-options="item.id as item.name for item in main.typeHeaders track by item.id"
+              required="true"></select>
+
+            <div class="form-group" ng-repeat="field in main.types[main.newPollution.type].fields">
+              <label>{{field.description}}</label>
+              <input type="text" ng-model="main.newPollution[field.name]" required="true"
+                class="form-control">
+            </div>
+            <div class="form-group" ng-if="main.types[main.newPollution.type].useSubstance">
+              <label>Речовина</label>
+              <select ng-model="main.newPollution.substanceId" required="true"
+                ng-options="item.id as item.name for item in main.substances track by item.id"
+                class="form-control">
+            </div>
             <button class="btn btn-default" ng-disabled="addItemForm.$invalid"
-                    ng-click="main.addItem(main.newPollution)">Додати</button>
+              ng-click="main.addItem(main.newPollution)">Додати</button>
           </form>
         </div>
       </div>
