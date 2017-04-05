@@ -149,18 +149,16 @@ export class Lab5Controller {
 
   calculateGround() {
     this.groundSum = 0;
-    let V = 50;
-    let T = 120;
-    let Cc = 0;
-    let Cd = 1.8 * 1.25;
-    let Ai = 0;
+    let Y = 50;
     let n = 3200;
-    let h = 0;
+    let V = 0;
+    let L = 1.3;
+    let Ki = 0;
     angular.forEach(this.pollutionsGround, item => {
-      Cc = item.averageConcentration;
-      Cd = item.gdk;
-      Ai = 1 / item.gdk;
-      this.groundSum += V * T * Cc * Cd * Ai * n * h;
+      item.gdk = 25;
+      Ki = 0.05 / item.gdk;
+      V = item.area * 25 * 1.2;
+      this.groundSum += Y * n * V * L * Ki;
     });
   }
 
