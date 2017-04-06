@@ -155,7 +155,7 @@ export class Lab5Controller {
     let L = 1.3;
     let Ki = 0;
     angular.forEach(this.pollutionsGround, item => {
-      item.gdk = 25;
+      item.gdk = 10;
       Ki = 0.05 / item.gdk;
       V = item.area * 25 * 1.2;
       this.groundSum += Y * n * V * L * Ki;
