@@ -1,196 +1,167 @@
-.acme-navbar-text {
-  color: white;
-}
-
 .addItemBox {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  cursor: pointer;
-  span {
-    color: #5AADBB;
-  }
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
 }
 
-acme-navbar {
-  nav {
-    background-color: #1c1b29;
-  }
-}
-
-.navbar-header {
-  &:hover {
-    color: #fff !important;
-  }
-}
 
 .btn-map {
-  margin: 9.2px 15px;
-  background-color: white;
-  border: none;
-  color: #5AADBB;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-  &.btn-modal {
-    margin: 0;
-  }
-  &:hover, &:focus {
-    background-color: white;
+    margin: 9.2px 15px;
+    padding: 6px 12px !important;
     border: none;
-    span {
-      color: #222 !important;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    &.btn-modal {
+        margin: 0;
     }
-  }
 }
 
 .label-name {
-  color: #5AADBB;
-  display: inline-block;
-  margin: 14px;
-  span:first-of-type {
+    display: inline-block;
+    margin: 14px;
     color: #fff;
-    margin-right: 15px;
-  }
+    span:first-of-type {
+        color: #fff;
+        margin-right: 15px;
+    }
 }
 
 #addItemModal {
-  .navTabs {
-    margin-bottom: 10px;
-    a {
-      padding: 5px 0;
-      color: rgba(0, 0, 0, .6);
-      text-decoration: none;
-      margin-right: 20px;
-      font-size: 16px;
-      transition: all 0.3s ease;
-      &.active, &:focus {
-        color: #000;
-        border-bottom: 1px solid #5AADBB;
-      }
+    .navTabs {
+        margin-bottom: 10px;
+        a {
+            padding: 5px 0;
+            color: rgba(0, 0, 0, .6);
+            text-decoration: none;
+            margin-right: 20px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            &.active,
+            &:focus {
+                color: #000;
+                border-bottom: 1px solid #5AADBB;
+            }
+        }
     }
-  }
-  form {
-    input, select {
-      margin-bottom: 10px;
+    form {
+        input,
+        select {
+            margin-bottom: 10px;
+        }
     }
-  }
 }
 
-
-
 .substContainer {
-
     & .water-container {
-      .box {
-        margin-left: 20px;
-      }
+        .box {
+            margin-left: 20px;
+        }
     }
-
-  .box {
-    display: flex;
-    font-size: 18px;
-    align-items: center;
-    background-color: darken(#fff, 5%);
-    padding: 20px;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    position: relative;
-    .abs {
-      position: absolute;
-      right: 100px;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      text-decoration: blink;
-      color: red;
-      &.val {
-        color: #00b3ee;
-      }
-    }
-    .title {
-      color: rgba(0,0,0,.7);
-      flex-basis: 50%;
-    }
-    .value {
-      color: black;
-      font-size: 20px;
-      transition: all 0.3s ease;
-      &:hover {
-        font-size: 22px;
-      }
-    }
-    &:hover {
-      background-color: darken(#fff, 10%);
-    }
-  }
-
-  .subst-header {
-    display: flex;
-    padding: 10px 0;
-    border-bottom: 1px solid gray;
-    background-color: #fff;
-    transition: all 0.3s ease;
-    .header-item {
-      flex-basis: 19%;
-      color: rgba(0, 0, 0, .5);
-      padding-left: 5px;
-    }
-  }
-  .substance {
-    border-bottom: 1px solid gray;
-    .table-container {
-      display: flex;
-      padding: 10px 0;
-      .table-item {
-        flex-basis: 19%;
-        padding-left: 5px;
+    .box {
         display: flex;
+        font-size: 18px;
         align-items: center;
-      }
+        background-color: darken(#fff, 5%);
+        padding: 20px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        .abs {
+            position: absolute;
+            right: 100px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            text-decoration: blink;
+            color: red;
+            &.val {
+                color: #00b3ee;
+            }
+        }
+        .title {
+            color: rgba(0, 0, 0, .7);
+            flex-basis: 50%;
+        }
+        .value {
+            color: black;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            &:hover {
+                font-size: 22px;
+            }
+        }
+        &:hover {
+            background-color: darken(#fff, 10%);
+        }
     }
-    &:hover {
-      background-color: darken(#fff, 5%);
+    .subst-header {
+        display: flex;
+        padding: 10px 0;
+        border-bottom: 1px solid gray;
+        background-color: #fff;
+        transition: all 0.3s ease;
+        .header-item {
+            flex-basis: 19%;
+            color: rgba(0, 0, 0, .5);
+            padding-left: 5px;
+        }
     }
-  }
+    .substance {
+        border-bottom: 1px solid gray;
+        .table-container {
+            display: flex;
+            padding: 10px 0;
+            .table-item {
+                flex-basis: 19%;
+                padding-left: 5px;
+                display: flex;
+                align-items: center;
+            }
+        }
+        &:hover {
+            background-color: darken(#fff, 5%);
+        }
+    }
 }
 
 .lab4Container {
-  width: auto !important;
-  > div:first-of-type {
-    display: flex;
-    ul:first-of-type {
-      flex-basis: 10%;
-      li {
-        width: 100%;
-      }
+    width: auto !important;
+    >div:first-of-type {
+        display: flex;
+        ul:first-of-type {
+            flex-basis: 10%;
+            li {
+                width: 100%;
+            }
+        }
     }
-  }
-  table {
-    tr th {
-      vertical-align: top;
+    table {
+        tr th {
+            vertical-align: top;
+        }
     }
-  }
 }
 
 .navbar-toggle {
-  position: absolute;
-  top: 0;
-  right: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .navbar-collapse {
-  position: relative;
+    position: relative;
 }
 
 @media (max-width: 500px) {
-  .addItemBox {
-    position: relative;
-    display: block;
-    padding: 10px 15px;
-    cursor: pointer;
-    right: auto;
-    top: auto;
-  }
+    .addItemBox {
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+        cursor: pointer;
+        right: auto;
+        top: auto;
+    }
 }

@@ -1,11 +1,12 @@
-<nav class="navbar navbar-static-top">
+<nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="https://github.com/Swiip/generator-gulp-angular">
-        <span class="glyphicon glyphicon-fire"></span> Awesome Lab
+      <a class="navbar-brand">
+        <span class="glyphicon glyphicon-fire"></span> Экология
       </a>
     </div>
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+    <button type="button" class="navbar-toggle" data-toggle="collapse"
+      data-target="#navbar">
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
@@ -14,7 +15,7 @@
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="nav navbar-nav">
         <li ng-hide="vm.$state.current.name=='variant'"><button class="btn btn-default btn-map" ng-click="vm.openMap()"><i class="glyphicon glyphicon-globe"></i></button></li>
-        <li ng-hide="vm.$state.current.name=='variant'"><a ui-sref="variant">Обрати</a></li>
+        <li ng-hide="vm.$state.current.name=='variant'"><a class="btn btn-default btn-map" ui-sref="variant">Обрати</a></li>
         <div class="label-name" ng-hide="vm.$state.current.name=='variant' || vm.$stateParams.labId != 1">
           <span>Тема роботи: </span><span>Оцінка потенційного ризику здоров’я населення в залежності від якості атмосферного повітря.</span>
         </div>
@@ -30,7 +31,8 @@
         <div class="label-name" ng-hide="vm.$state.current.name=='variant' || vm.$stateParams.labId != 5">
           <span>Тема роботи: </span><span>Визначення величини збитків від наслідків забруднення навколишнього середовища.</span>
         </div>
-        <div ng-hide="vm.$state.current.name=='variant'" class="addItemBox" data-toggle="modal" data-target="#addItemModal">
+        <div ng-hide="vm.$state.current.name=='variant'" class="addItemBox"
+          data-toggle="modal" data-target="#addItemModal">
           <button class="btn btn-default btn-map btn-modal">
             <span class="glyphicon glyphicon-open"></span>
           </button>
