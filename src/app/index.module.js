@@ -15,12 +15,12 @@ import { Lab4Controller } from './lab4/lab4.controller';
 import { Lab5Controller } from './lab5/lab5.controller';
 
 let API_URL = 'http://localhost:3333/',
-  server = 'http://212.80.38.228:3030/';
+  server = 'http://144.76.201.205:3333/';
 
 angular.module('ecologyMonitoring', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ngResource', 'ui.router', 'ui.bootstrap', 'toastr'])
   .constant('malarkey', malarkey)
   .constant('moment', moment)
-  .constant('API_URL', API_URL)
+  .constant('API_URL', server)
   .config(config)
   .config(routerConfig)
   .run(runBlock)

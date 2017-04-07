@@ -3,7 +3,7 @@
     <div class="box" ng-click="isCollapsedAir = !isCollapsedAir">
 
       <div class="title">Збитки від забруднення атмосферного повітря, гривень</div>
-      <div class="value">{{main.airSum}} грн.</div>
+      <div class="value">{{main.airSum | currency:''}} грн.</div>
       <div class="abs val">{{main.airSum * 100 / (main.airSum + main.waterSum + main.groundSum) | number: 0}} %</div>
     </div>
     <div class="content" uib-collapse="isCollapsedAir">
@@ -23,7 +23,7 @@
     <div class="box" ng-click="isCollapsedWater = !isCollapsedWater">
       <div class="title">Збитки від забруднення поверхневих і підземних вод, гривень</div>
 
-      <div class="value">{{main.waterSum}} грн.</div>
+      <div class="value">{{main.waterSum | currency:''}} грн.</div>
       <div class="abs val">{{main.waterSum * 100 / (main.airSum + main.waterSum + main.groundSum) | number: 0}} %</div>
 
     </div>
@@ -44,7 +44,7 @@
     <div class="box" ng-click="isCollapsedGround = !isCollapsedGround">
       <div class="title">Збитки від забруднення земель, гривень</div>
 
-      <div class="value">{{main.groundSum}} грн.</div>
+      <div class="value">{{main.groundSum | currency:''}} грн.</div>
       <div class="abs val">{{main.groundSum * 100 / (main.airSum + main.waterSum + main.groundSum) | number: 0}} %</div>
 
     </div>
@@ -64,7 +64,7 @@
     </div>
     <div class="box" ng-click="main.veryMuch()">
       <div class="title">Загальний збиток</div>
-      <div class="value">{{main.airSum + main.waterSum + main.groundSum}} грн.</div>
+      <div class="value">{{main.airSum + main.waterSum + main.groundSum | currency:''}} грн.</div>
     </div>
   </div>
 </div>

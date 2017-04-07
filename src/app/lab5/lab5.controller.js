@@ -3,7 +3,7 @@ export class Lab5Controller {
     'ngInject';
 
     // must be initilized
-    const n = 3200;
+    const n = 14;
 
     var self = this,
       labId = $stateParams.labId;
@@ -289,7 +289,7 @@ export class Lab5Controller {
 
   calculateAir() {
     this.airSum = 0;
-    let pI = 3200;
+    let pI = 32;
     let mI = 10;
     let aI = 0;
     let kT = 1.8 * 1.25;
@@ -306,7 +306,6 @@ export class Lab5Controller {
 
     for (let key in this.types) {
       if (this.types.hasOwnProperty(key)) {
-        debugger;
         sum += this.types[key].sum(this.pollutionsWater);
 
       }
@@ -336,7 +335,7 @@ export class Lab5Controller {
   calculateGround() {
     this.groundSum = 0;
     let Y = 50;
-    let n = 3200;
+    let n = 14;
     let V = 0;
     let L = 1.3;
     let Ki = 0;
