@@ -289,7 +289,7 @@ export class Lab5Controller {
 
   calculateAir() {
     this.airSum = 0;
-    let pI = 3200;
+    let pI = 14;
     let mI = 10;
     let aI = 0;
     let kT = 1.8 * 1.25;

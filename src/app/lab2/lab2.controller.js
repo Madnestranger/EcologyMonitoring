@@ -114,6 +114,37 @@ export class Lab2Controller {
 
             //let prob = this.prob()
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             for (let j = 0; j < organProbs.length; j++) {
               risk = organRisks[j];
               if (item.prob < organProbs[j]) {
